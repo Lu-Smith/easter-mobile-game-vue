@@ -6,6 +6,6 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import AssetsComponent from './AssetsComponent.vue';
 </script>
