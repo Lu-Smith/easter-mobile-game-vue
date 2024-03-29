@@ -40,7 +40,7 @@ export default class Game {
 
     }
     formatTimer() {
-        return (this.timer * 0.001).toFixed(1);
+        return (this.timer * 0.001).toFixed(0);
     }
     handlePeriodicEvents(deltaTime: number) {
         if (this.eventTimer < this.eventInterval) {
@@ -52,11 +52,14 @@ export default class Game {
         }
     }
     drawStatusText() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
     }
     
     resize(width: number, height: number) {     
         this.canvas.width = width;
         this.canvas.height = height;
+        this.gameOver = false;
+        this.timer = 0;
     }
 }
