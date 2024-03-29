@@ -3,7 +3,7 @@
     <h1 v-if="!gameRunning" >East Bunny Hunt</h1>
     <DescriptionComponent v-if="!gameRunning" />
     <button @click="startNewGame" v-if="!gameRunning">Start</button>
-    <MainGame v-if="gameRunning" />
+    <MainGame v-if="gameRunning" :gameRunning="gameRunning"/>
     <InstructionComponent v-if="!gameRunning" />
     <FooterComponent v-if="!gameRunning" />
   </div>
