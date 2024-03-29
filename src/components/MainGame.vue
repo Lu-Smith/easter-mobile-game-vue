@@ -26,6 +26,7 @@ const reset = ref(false);
 const lastTime = ref(0);
 const deltaTime = ref(0);
 let game: Game | null = null;   
+const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
 const animate = () => {
     const loop = (timeStamp: number = 0) => {
@@ -47,6 +48,17 @@ const animate = () => {
 const startGame = () => {
     playing.value = !playing.value;
     reset.value = false;
+
+    if (!game) {
+        const context = gameCanvas.value?.getContext('2d');
+        if (context && gameCanvas.value) {
+            gameCanvas.value.width = 720;
+            gameCanvas.value.height = 720;
+
+            game = new Game(gameCanvas.value, context);
+        }
+    } 
+
     animate(); 
 }
 
