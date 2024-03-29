@@ -30,32 +30,38 @@ const deltaTime = ref(0);
 let game: Game | null = null;   
 const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
-const animate = () => {
+const animate = (playingValue: boolean) => {
     const loop = (timeStamp: number) => {
-        deltaTime.value = timeStamp - lastTime.value;
-        lastTime.value = timeStamp;
+            deltaTime.value = timeStamp - lastTime.value;
+            lastTime.value = timeStamp;
         if (props.gameRunning && game) {
-            game.render(deltaTime.value);
-            animationFrameId.value = requestAnimationFrame(loop);
+            console.log(playingValue);
+            game.render(deltaTime.value, playingValue);
+            if (playing.value) {
+                animationFrameId.value = requestAnimationFrame(loop);
+            }
             if (game.gameOver) {
                 resetGame();
             }
         }    
     }   
     animationFrameId.value = requestAnimationFrame(loop);
+
 }
 
-const newGame = () => {
-    playing.value = true;
-    nextTick(() => {
+const initializeCanvasAndAnimate = () => {
     const context = gameCanvas.value?.getContext('2d');
     if (context && gameCanvas.value) {
         gameCanvas.value.width = 720;
         gameCanvas.value.height = 720;
         game = new Game(gameCanvas.value, context);
     }
-    animate();
-})
+    animate(playing.value);
+}
+
+const newGame = () => {
+    playing.value = true;
+    nextTick(initializeCanvasAndAnimate);
 }
 
 if (props.gameRunning) {
@@ -65,7 +71,7 @@ if (props.gameRunning) {
 const startGame = () => {
     playing.value = true;
     reset.value = false;
-    animate();
+    animate(playing.value);
 }
 
 const pauseGame = () => {
@@ -73,18 +79,13 @@ const pauseGame = () => {
     if (animationFrameId.value !== undefined) {
         cancelAnimationFrame(animationFrameId.value);
     }
+    animate(playing.value);
 }
 
 const resetGame = () => {
     playing.value = true;
     reset.value = true;
-    const context = gameCanvas.value?.getContext('2d');
-    if (context && gameCanvas.value) {
-        gameCanvas.value.width = 720;
-        gameCanvas.value.height = 720;
-        game = new Game(gameCanvas.value, context);
-    }
-    animate();
+    nextTick(initializeCanvasAndAnimate);
 }
 
 </script>

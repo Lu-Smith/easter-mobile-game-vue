@@ -31,9 +31,14 @@ export default class Game {
             }
         });
     }
-    render(deltaTime: number) {
+    render(deltaTime: number, playing: boolean) {
         //timer
-        if (!this.gameOver) this.timer += deltaTime;
+        console.log(playing);
+        if (!this.gameOver && playing) {
+            this.timer += deltaTime
+        } else {
+            return this.timer = 0;
+        };
         this.handlePeriodicEvents(deltaTime);
         //text
         this.drawStatusText();
