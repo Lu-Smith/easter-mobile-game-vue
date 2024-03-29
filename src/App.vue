@@ -2,7 +2,7 @@
   <div>
     <h1 v-if="!gameRunning" >East Bunny Hunt</h1>
     <DescriptionComponent v-if="!gameRunning" />
-    <button @click="startGame">Start</button>
+    <button @click="startNewGame" v-if="!gameRunning">Start</button>
     <MainGame v-if="gameRunning" />
     <InstructionComponent v-if="!gameRunning" />
     <FooterComponent v-if="!gameRunning" />
@@ -19,7 +19,7 @@ import { ref } from 'vue';
 
 const gameRunning = ref(false);
 
-const startGame = () => {
+const startNewGame = () => {
   gameRunning.value = !gameRunning.value;
 }
 </script>
