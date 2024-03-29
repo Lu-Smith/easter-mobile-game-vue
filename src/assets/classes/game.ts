@@ -33,16 +33,12 @@ export default class Game {
     }
     render(deltaTime: number, playing: boolean) {
         //timer
-        console.log(playing);
         if (!this.gameOver && playing) {
-            this.timer += deltaTime
-        } else {
-            return this.timer = 0;
-        };
+            this.timer += deltaTime;
+        } 
         this.handlePeriodicEvents(deltaTime);
         //text
         this.drawStatusText();
-
     }
     formatTimer() {
         return (this.timer * 0.001).toFixed(0);

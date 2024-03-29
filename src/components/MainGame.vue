@@ -25,18 +25,21 @@ const props = defineProps(['gameRunning']);
 const animationFrameId: { value?: number } = {};
 const playing = ref(true);
 const reset = ref(false);
-const lastTime = ref(0);
-const deltaTime = ref(0);
+// const lastTime = ref(0);
+// const deltaTime = ref(0);
 let game: Game | null = null;   
 const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
 const animate = (playingValue: boolean) => {
-    const loop = (timeStamp: number) => {
-            deltaTime.value = timeStamp - lastTime.value;
-            lastTime.value = timeStamp;
+    let lastTimeStamp = performance.now();
+
+    const loop = () => {
+        const currentTimeStamp = performance.now();
+        const deltaTime = playingValue ? currentTimeStamp - lastTimeStamp : 0;
+        lastTimeStamp = currentTimeStamp;
+
         if (props.gameRunning && game) {
-            console.log(playingValue);
-            game.render(deltaTime.value, playingValue);
+            game.render(deltaTime, playingValue);
             if (playing.value) {
                 animationFrameId.value = requestAnimationFrame(loop);
             }
@@ -45,8 +48,9 @@ const animate = (playingValue: boolean) => {
             }
         }    
     }   
-    animationFrameId.value = requestAnimationFrame(loop);
-
+    if (playingValue) {
+        animationFrameId.value = requestAnimationFrame(loop);
+    }
 }
 
 const initializeCanvasAndAnimate = () => {
@@ -59,8 +63,15 @@ const initializeCanvasAndAnimate = () => {
     animate(playing.value);
 }
 
+const resetGame = () => {
+    playing.value = true;
+    reset.value = true;
+    nextTick(initializeCanvasAndAnimate);
+}
+
 const newGame = () => {
     playing.value = true;
+    resetGame();
     nextTick(initializeCanvasAndAnimate);
 }
 
@@ -82,10 +93,6 @@ const pauseGame = () => {
     animate(playing.value);
 }
 
-const resetGame = () => {
-    playing.value = true;
-    reset.value = true;
-    nextTick(initializeCanvasAndAnimate);
-}
+
 
 </script>
