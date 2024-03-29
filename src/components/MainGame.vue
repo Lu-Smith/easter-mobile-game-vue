@@ -1,13 +1,13 @@
 <template>
     <div class="gameContainer">
         <button 
-        v-if="playing"
+        v-if="!playing"
         @click="startGame">Go</button>
         <button 
-        v-if="!playing"
+        v-if="playing"
         @click="pauseGame">Pause</button>
         <button 
-        v-if="playing"
+        v-if="!playing"
         @click="resetGame">Play Again</button>
         <AssetsComponent /> 
         <canvas ref="gameCanvas"></canvas>
@@ -16,8 +16,10 @@
 
 <script setup lang="ts">
 import AssetsComponent from './AssetsComponent.vue';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import Game from '../assets/classes/game.ts';
+
+const props = defineProps(['gameRunning']);
 
 //game logic
 const animationFrameId: { value?: number } = {};
@@ -29,14 +31,12 @@ let game: Game | null = null;
 const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
 const animate = () => {
-    const loop = (timeStamp: number = 0) => {
+    const loop = (timeStamp: number) => {
         deltaTime.value = timeStamp - lastTime.value;
         lastTime.value = timeStamp;
-        if (game) {
+        if (props.gameRunning && game) {
             game.render(deltaTime.value);
-            if (playing.value) {
-                animationFrameId.value = requestAnimationFrame(loop);
-            }
+            animationFrameId.value = requestAnimationFrame(loop);
             if (game.gameOver) {
                 resetGame();
             }
@@ -45,25 +45,31 @@ const animate = () => {
     animationFrameId.value = requestAnimationFrame(loop);
 }
 
+const newGame = () => {
+    playing.value = true;
+    nextTick(() => {
+    const context = gameCanvas.value?.getContext('2d');
+    if (context && gameCanvas.value) {
+        gameCanvas.value.width = 720;
+        gameCanvas.value.height = 720;
+        game = new Game(gameCanvas.value, context);
+    }
+    animate();
+})
+}
+
+if (props.gameRunning) {
+    newGame();
+}
+
 const startGame = () => {
-    playing.value = !playing.value;
+    playing.value = true;
     reset.value = false;
-
-    if (!game) {
-        const context = gameCanvas.value?.getContext('2d');
-        if (context && gameCanvas.value) {
-            gameCanvas.value.width = 720;
-            gameCanvas.value.height = 720;
-
-            game = new Game(gameCanvas.value, context);
-        }
-    } 
-
-    animate(); 
+    animate();
 }
 
 const pauseGame = () => {
-    playing.value = !playing.value;
+    playing.value = false;
     if (animationFrameId.value !== undefined) {
         cancelAnimationFrame(animationFrameId.value);
     }
@@ -72,7 +78,13 @@ const pauseGame = () => {
 const resetGame = () => {
     playing.value = true;
     reset.value = true;
-    startGame();
+    const context = gameCanvas.value?.getContext('2d');
+    if (context && gameCanvas.value) {
+        gameCanvas.value.width = 720;
+        gameCanvas.value.height = 720;
+        game = new Game(gameCanvas.value, context);
+    }
+    animate();
 }
 
 </script>
