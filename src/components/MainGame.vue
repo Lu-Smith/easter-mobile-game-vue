@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import AssetsComponent from './AssetsComponent.vue';
 import { ref } from 'vue';
+import Game from '../assets/classes/game.ts';
 
 //game logic
 const animationFrameId: { value?: number } = {};
@@ -24,12 +25,22 @@ const playing = ref(true);
 const reset = ref(false);
 const lastTime = ref(0);
 const deltaTime = ref(0);
+let game: Game | null = null;   
 
 const animate = () => {
     const loop = (timeStamp: number = 0) => {
         deltaTime.value = timeStamp - lastTime.value;
         lastTime.value = timeStamp;
-    }
+        if (game) {
+            game.render(deltaTime.value);
+            if (playing.value) {
+                animationFrameId.value = requestAnimationFrame(loop);
+            }
+            if (game.gameOver) {
+                resetGame();
+            }
+        }    
+    }   
     animationFrameId.value = requestAnimationFrame(loop);
 }
 
