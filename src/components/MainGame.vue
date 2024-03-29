@@ -22,9 +22,13 @@ import { ref } from 'vue';
 const animationFrameId: { value?: number } = {};
 const playing = ref(true);
 const reset = ref(false);
+const lastTime = ref(0);
+const deltaTime = ref(0);
 
 const animate = () => {
-    const loop = () => {
+    const loop = (timeStamp: number = 0) => {
+        deltaTime.value = timeStamp - lastTime.value;
+        lastTime.value = timeStamp;
     }
     animationFrameId.value = requestAnimationFrame(loop);
 }
