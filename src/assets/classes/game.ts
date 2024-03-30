@@ -1,5 +1,6 @@
 import Background from './background';
 import Player from './player';
+import Projectiles from './projectiles';
 
 export default class Game {
     canvas: HTMLCanvasElement;
@@ -12,6 +13,8 @@ export default class Game {
     ratioWidth: number;
     //player
     player: Player;
+    //projectiles
+    projectiles: Projectiles;
     //background
     background: Background;
     //game logic
@@ -33,6 +36,8 @@ export default class Game {
         this.ratioWidth = Number((this.width /this.baseWidth).toFixed(2));
         //player
         this.player = new Player(this);
+        //projectiles
+        this.projectiles = new Projectiles(this);
         //background
         this.background = new Background(this);
         //game logic
@@ -78,11 +83,11 @@ export default class Game {
         this.height = this.canvas.height;
         this.ratio = Number((this.height / this.baseHeight).toFixed(2));
         this.ratioWidth = Number((this.width / this.baseWidth).toFixed(2));
-        this.background.resize();
         this.gameOver = false;
         this.timer = 0;
         this.background.resize();
         this.player.resize();
+        this.projectiles.resize();
 
         //draw
         this.context.lineWidth = 5;
@@ -93,6 +98,8 @@ export default class Game {
         this.background.draw();
         //player
         this.player.draw();
+        //projectiles
+        this.projectiles.draw();
         //timer
         if (!this.gameOver && playing) {
             this.timer += deltaTime;
