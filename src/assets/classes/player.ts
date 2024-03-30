@@ -18,15 +18,15 @@ export default class Player {
         this.width = 0;
         this.height = 0;
     }
-    draw() {
-        this.game.context.beginPath();
-        this.game.context.arc(this.game.width * 0.5, this.game.height * 0.8, 
-            this.height, 0, Math.PI * 2);
-        this.game.context.stroke();
-    }
     resize() {
         this.width = this.spriteWidth * this.game.ratio;
         this.height = this.spriteHeight * this.game.ratio;
         this.y = this.game.height * 0.5 - this.height * 0.5;
+    }
+    draw() {
+        this.game.context.beginPath();
+        this.game.context.arc(this.game.width * 0.5, this.game.height - (160 * this.game.ratio), 
+            this.height, 0, Math.PI * 2);
+        this.game.context.stroke();
     }
 }
