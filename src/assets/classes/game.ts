@@ -1,8 +1,15 @@
+import Background from './background';
+
 export default class Game {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     width: number;
     height: number;
+    baseHeight: number;
+    ratio: number;
+    //background
+    background: Background;
+    //gamelogic
     gameOver: false;
     //timer
     timer: number;
@@ -15,6 +22,11 @@ export default class Game {
         this.context = context;
         this.width = this.canvas.width;
         this.height = this.canvas.height;
+        this.baseHeight = 720;
+        this.ratio = Number((this.height /this.baseHeight).toFixed(2));
+        //background
+        this.background = new Background(this);
+        //game logic
         this.gameOver = false;
         //timer
         this.timer = 0;
@@ -32,6 +44,8 @@ export default class Game {
         });
     }
     render(deltaTime: number, playing: boolean) {
+        //background
+        this.background.draw();
         //timer
         if (!this.gameOver && playing) {
             this.timer += deltaTime;
@@ -60,6 +74,10 @@ export default class Game {
     resize(width: number, height: number) {     
         this.canvas.width = width;
         this.canvas.height = height;
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;
+        this.ratio = Number((this.height / this.baseHeight).toFixed(2));
+        this.background.resize();
         this.gameOver = false;
         this.timer = 0;
     }
