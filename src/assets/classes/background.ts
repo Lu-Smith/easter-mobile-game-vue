@@ -14,18 +14,19 @@ export default class Background {
         this.game = game;
         this.background = 'background1';
         this.image = document.getElementById(this.background) as CanvasImageSource;
-        this.width = 2400;
+        this.width = this.game.baseWidth;
         this.height = this.game.baseHeight;
         this.scaledWidth = this.width;
         this.scaledHeight = this.height;
-        this.x = 0;
+        this.x = this.game.canvas.width * 0.05;
     }
     draw(){
-        this.game.context.drawImage(this.image, this.x , 0, this.scaledWidth, this.scaledHeight);
+        this.game.context.clearRect(0, 0, this.game.width, this.game.height);
+        this.game.context.drawImage(this.image, this.x, 35, this.scaledWidth, this.scaledHeight);
     }
     resize() {
-        this.scaledWidth = this.width * this.game.ratio;
-        this.scaledHeight = this.height * this.game.ratio;
-        this.x = 0;
+        this.scaledWidth = this.width * this.game.ratioWidth * 0.9;
+        this.scaledHeight = this.height * this.game.ratio * 0.8;
+        this.x = this.game.canvas.width * 0.05;
     }
 }
