@@ -56,7 +56,6 @@ const initializeCanvasAndAnimate = () => {
     if (context && gameCanvas.value) {
         gameCanvas.value.width = 1500;
         gameCanvas.value.height = 800;
-        context.clearRect(0, 0, gameCanvas.value.width, gameCanvas.value.height);
         game = new Game(gameCanvas.value, context);
     }
     animate(playing.value);
