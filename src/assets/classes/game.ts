@@ -1,4 +1,5 @@
 import Background from './background';
+import Player from './player';
 
 export default class Game {
     canvas: HTMLCanvasElement;
@@ -9,6 +10,8 @@ export default class Game {
     baseHeight: number;
     ratio: number;
     ratioWidth: number;
+    //player
+    player: Player;
     //background
     background: Background;
     //game logic
@@ -28,6 +31,8 @@ export default class Game {
         this.baseWidth = 1500;
         this.ratio = Number((this.height /this.baseHeight).toFixed(2));
         this.ratioWidth = Number((this.width /this.baseWidth).toFixed(2));
+        //player
+        this.player = new Player(this);
         //background
         this.background = new Background(this);
         //game logic
@@ -77,14 +82,17 @@ export default class Game {
         this.gameOver = false;
         this.timer = 0;
         this.background.resize();
+        this.player.resize();
 
         //draw
-        this.context.lineWidth = 1;
+        this.context.lineWidth = 5;
         this.context.strokeStyle = 'black';
     }
     render(deltaTime: number, playing: boolean) {
         //background
         this.background.draw();
+        //player
+        this.player.draw();
         //timer
         if (!this.gameOver && playing) {
             this.timer += deltaTime;
@@ -106,7 +114,7 @@ export default class Game {
         }
     }
     drawStatusText() {
-        this.context.strokeStyle = 'red';
+        this.context.strokeStyle = 'orange';
         this.context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
         this.context.fillStyle = 'black';
         this.context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
