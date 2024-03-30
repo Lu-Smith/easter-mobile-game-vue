@@ -9,8 +9,8 @@
         <button 
         v-if="!playing"
         @click="resetGame">Play Again</button>
-        <AssetsComponent /> 
         <canvas ref="gameCanvas"></canvas>
+        <AssetsComponent /> 
     </div>
 </template>
 
@@ -25,8 +25,6 @@ const props = defineProps(['gameRunning']);
 const animationFrameId: { value?: number } = {};
 const playing = ref(true);
 const reset = ref(false);
-// const lastTime = ref(0);
-// const deltaTime = ref(0);
 let game: Game | null = null;   
 const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
