@@ -1,6 +1,8 @@
 import Background from './background';
 import Player from './player';
 import Projectiles from './projectiles';
+import Wave from "./waves";
+import Enemy from './enemy';
 
 export default class Game {
     canvas: HTMLCanvasElement;
@@ -13,8 +15,18 @@ export default class Game {
     ratioWidth: number;
     //player
     player: Player;
+    keys: string[];
     //projectiles
-    projectiles: Projectiles;
+    projectilesPool: Projectiles[];
+    numbersOfProjectiles: number;
+    fired: boolean;
+    //enemy
+    enemy: Enemy;
+    columns: number;
+    rows: number;
+    waves: Wave[];
+    waveCount: number;
+    enemySize: number;
     //background
     background: Background;
     //game logic
@@ -24,6 +36,11 @@ export default class Game {
     eventTimer: number;
     eventInterval: number;
     eventUpdate: boolean;
+    //mobile
+    touchStartX: number;
+    swipeDistance: number;
+    left: number;
+    right: number;
 
     constructor(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
         this.canvas = canvas;
@@ -36,8 +53,20 @@ export default class Game {
         this.ratioWidth = Number((this.width /this.baseWidth).toFixed(2));
         //player
         this.player = new Player(this);
-        //projectiles
-        this.projectiles = new Projectiles(this);
+        this.keys = [];
+        //enemy
+        this.enemy = new Enemy(this);
+        this.columns = 2;
+        this.rows = 1;
+        this.waves = [];
+        this.waves.push(new Wave(this));
+        this.waveCount = 1;
+        this.enemySize = 50 * this.ratio;
+         //projectiles
+         this.projectilesPool = [];        
+         this.numbersOfProjectiles = 15;
+         this.fired = false;
+         this.createProjectiles();
         //background
         this.background = new Background(this);
         //game logic
@@ -47,6 +76,11 @@ export default class Game {
         this.eventTimer = 0;
         this.eventInterval = 100;
         this.eventUpdate = false;
+        //mobile
+        this.touchStartX = 0;
+        this.swipeDistance = 50;
+        this.left = 0;
+        this.right = 0;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -64,16 +98,45 @@ export default class Game {
 
          //keybord controls
          window.addEventListener('keydown', e => {
+            if ((e.key === '1' || e.key === 'Enter' || e.key === ' ') && !this.fired) this.player.shoot();
+            this.fired = true;
+            if (this.keys.indexOf(e.key) === -1) this.keys.push(e.key);
             if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);  
         });
 
+        window.addEventListener('keyup', e => {
+            this.fired = false;
+            const index = this.keys.indexOf(e.key);
+            if (index > -1) this.keys.splice(index, 1);
+        })
+
          //touch controls
+         this.canvas.addEventListener('touchstart', e => {
+            this.player.shoot();
+            this.touchStartX = e.changedTouches[0].pageX;
+        });
+
         this.canvas.addEventListener('touchmove', e => {
             e.preventDefault();
          })
  
-         this.canvas.addEventListener('touchend', () => {
-            this.resize(window.innerWidth, window.innerHeight);
+         this.canvas.addEventListener('touchend', e => {
+            if (!this.gameOver) {
+                if (e.changedTouches[0].pageX - this.touchStartX > (this.swipeDistance * 2)) {
+                    this.right = 1;
+                    this.left = 0;
+                } else if (e.changedTouches[0].pageX - this.touchStartX < -(this.swipeDistance * 2)) {
+                    this.left = 1;
+                    this.right = 0;
+                } else if (e.changedTouches[0].pageX - this.touchStartX <= (this.swipeDistance * 2) && e.changedTouches[0].pageX - this.touchStartX  >= -(this.swipeDistance * 2)) {
+                    this.player.shoot();
+                    this.right = 0;
+                    this.left = 0;
+                }
+            } else {
+                this.resize(window.innerWidth, window.innerHeight);
+            }
+           
          });
     }
     resize(width: number, height: number) {     
@@ -85,21 +148,46 @@ export default class Game {
         this.ratioWidth = Number((this.width / this.baseWidth).toFixed(2));
         this.gameOver = false;
         this.timer = 0;
+        this.enemySize = 50 * this.ratio;
         this.background.resize();
         this.player.resize();
-        this.projectiles.resize();
-
+        this.enemy.resize();
+        this.waves.forEach(wave => {
+            wave.resize();
+        })
         //draw
         this.context.lineWidth = 5;
         this.context.strokeStyle = 'black';
+        //enemy
+        this.columns = 2;
+        this.rows = 1;
+        this.waveCount = 1;
+        this.waves = [];
+        this.newWave();
     }
     render(deltaTime: number, playing: boolean) {
         //background
         this.background.draw();
         //player
         this.player.draw();
+        this.player.update();
         //projectiles
-        this.projectiles.draw();
+        this.projectilesPool.forEach(projectile => {
+            projectile.update();
+            projectile.draw(this.context);
+        });
+        //enemy
+        this.waves.forEach(wave => {
+            wave.render(this.context);
+            if (wave.enemies.length < 1 && !wave.nextWaveTrigger && !this.gameOver) {
+                this.newWave();
+                this.waveCount++;
+                wave.nextWaveTrigger = true;
+            } 
+            else if (this.gameOver) {
+                this.waves = [];
+            }
+        });
         //timer
         if (!this.gameOver && playing) {
             this.timer += deltaTime;
@@ -107,6 +195,17 @@ export default class Game {
         this.handlePeriodicEvents(deltaTime);
         //text
         this.drawStatusText();
+    }
+    createProjectiles() {
+        for (let i = 0; i < this.numbersOfProjectiles; i++) {
+            this.projectilesPool.push(new Projectiles());
+        }
+    }
+    //get free projectile objext from the pool
+    getProjectile() {
+        for (let i = 0; i < this.projectilesPool.length; i++) {
+            if(this.projectilesPool[i].free) return this.projectilesPool[i];
+        }
     }
     formatTimer() {
         return (this.timer * 0.001).toFixed(0);
@@ -120,11 +219,28 @@ export default class Game {
             this.eventUpdate = true;
         }
     }
+    checkCollision(a: Enemy, b: Projectiles) {
+        return (
+            a.x < b.x + b.width &&
+            a.x + a.spriteWidth > b.x &&
+            a.y < b.y + b.height &&
+            a.y + a.spriteHeight > b.y
+        ) 
+    }
     drawStatusText() {
         this.context.strokeStyle = 'orange';
         this.context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
         this.context.fillStyle = 'black';
         this.context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
        
+    }
+    newWave() {
+        if(Math.random() < 0.6 && this.columns * this.enemySize < this.width * 0.9) {
+            this.columns++;
+        } else if (this.rows * this.enemySize < this.height * 0.6) {
+            this.rows++;
+        }
+        this.waves.push(new Wave(this));
+
     }
 }
