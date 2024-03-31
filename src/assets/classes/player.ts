@@ -39,7 +39,8 @@ export default class Player {
             this.x += this.game.right;
         } 
         //horizontal boundries
-
+        if (this.x < this.height * 0.5) this.x = this.height * 0.5;
+        else if (this.x > this.game.width - (this.height * 0.5)) this.x = this.game.width - (this.height * 0.5);
    
     }
     draw() {
