@@ -9,6 +9,10 @@ export default class Player {
     spriteWidth: number;
     spriteHeight: number;
     speed: number;
+    // matching types with Projectile
+    free: any;
+    start: any;
+    reset: any;
 
     constructor(game: Game) {
         this.game =  game;
@@ -19,6 +23,10 @@ export default class Player {
         this.width = 0;
         this.height = 0;
         this.speed = 5;
+        // matching types with Projectile
+        this.free;
+        this.start;
+        this.reset;
     }
     resize() {
         this.width = this.spriteWidth * this.game.ratio;
