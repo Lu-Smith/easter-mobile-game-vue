@@ -23,8 +23,8 @@ export default class Player {
     resize() {
         this.width = this.spriteWidth * this.game.ratio;
         this.height = this.spriteHeight * this.game.ratio;
-        this.x = this.game.width * 0.5;
-        this.y = this.game.height * 0.5 - this.height * 0.5;
+        this.x = (this.game.width * 0.5) - (this.height * 0.5);
+        this.y = this.game.height - (160 * this.game.ratio);
     }
     update() {
         //horizontal movement
@@ -45,8 +45,13 @@ export default class Player {
     }
     draw() {
         this.game.context.beginPath();
-        this.game.context.arc(this.x, this.game.height - (160 * this.game.ratio), 
-            this.height, 0, Math.PI * 2);
+        this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
         this.game.context.stroke();
+    } 
+    shoot() {
+        const projectile = this.game.getProjectile();
+        if (projectile) {
+            projectile.start(this.x, this.y - this.height * 0.5); 
+        }
     } 
 }
