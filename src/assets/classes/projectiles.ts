@@ -1,28 +1,40 @@
-import Game from './game';
+export default class Projectiles {
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+    speed: number;
+    free: boolean;
 
-export default class Obstacle {
-    game: Game; 
-    spriteWidth: number;
-    spriteHeight: number;
-    scaledWidth: number;
-    scaledHeight: number;
-
-    constructor(game: Game) {
-        this.game = game;
-        this.spriteWidth = 20;
-        this.spriteHeight = 20;
-        this.scaledWidth = this.spriteWidth * this.game.ratio;
-        this.scaledHeight = this.spriteHeight * this.game.ratio;
+    constructor() {
+        this.width = 3;
+        this.height = 40;
+        this.x = 0;
+        this.y = 0;
+        this.speed = 20;
+        this.free = true;
     }
-    resize() {
-        this.scaledWidth = this.spriteWidth * this.game.ratio;
-        this.scaledHeight = this.spriteHeight * this.game.ratio;
+    draw(context: CanvasRenderingContext2D){
+        if(!this.free) {
+            context.save();
+            context.fillStyle = 'gold';
+            context.fillRect(this.x, this.y, this.width, this.height);
+            context.restore();
+        }
     }
-    draw(){
-        this.game.context.beginPath();
-        this.game.context.arc(this.game.width * 0.5, this.game.height * 0.15, 
-            this.scaledHeight, 0, Math.PI * 2);
-        this.game.context.stroke();
+    update() {
+        if(!this.free) {
+            this.y -= this.speed;
+            if(this.y < - this.height) this.reset();
+        }
+    }
+    start(x: number, y: number) {
+        this.x = x - this.width * 0.5;
+        this.y = y;
+        this.free = false;
+    }
+    reset() {
+        this.free = true;
     }
 
 }
