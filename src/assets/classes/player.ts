@@ -9,6 +9,10 @@ export default class Player {
     spriteWidth: number;
     spriteHeight: number;
     speed: number;
+    lives: number;
+    maxLives: number;
+    image: HTMLImageElement;
+    frameX: number;
     // matching types with Projectile
     free: any;
     start: any;
@@ -23,16 +27,14 @@ export default class Player {
         this.width = 0;
         this.height = 0;
         this.speed = 5;
+        this.image = document.getElementById('player') as HTMLImageElement;
+        this.frameX =1;
+        this.lives = 3;
+        this.maxLives = 10;
         // matching types with Projectile
         this.free;
         this.start;
         this.reset;
-    }
-    resize() {
-        this.width = this.spriteWidth * this.game.ratio;
-        this.height = this.spriteHeight * this.game.ratio;
-        this.x = (this.game.width * 0.5) - (this.height * 0.5);
-        this.y = this.game.height - (160 * this.game.ratio);
     }
     update() {
         //horizontal movement
@@ -52,6 +54,12 @@ export default class Player {
    
     }
     draw() {
+        if ((this.game.keys.indexOf('1')  > -1) || (this.game.keys.indexOf(' ') > -1) || (this.game.keys.indexOf('Enter') > -1)) {
+            this.frameX = 1;
+        } else {
+            this.frameX = 0;
+        }
+        this.game.context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
         this.game.context.beginPath();
         this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
         this.game.context.stroke();
@@ -62,4 +70,10 @@ export default class Player {
             projectile.start(this.x, this.y - this.height * 0.5); 
         }
     } 
+    resize() {
+        this.width = this.spriteWidth * this.game.ratio;
+        this.height = this.spriteHeight * this.game.ratio;
+        this.x = (this.game.width * 0.5) - (this.height * 0.5);
+        this.y = this.game.height - (160 * this.game.ratio);
+    }
 }
