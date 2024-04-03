@@ -28,7 +28,7 @@ export default class Player {
         this.height = 0;
         this.speed = 5;
         this.image = document.getElementById('player') as HTMLImageElement;
-        this.frameX =1;
+        this.frameX = 1;
         this.lives = 3;
         this.maxLives = 10;
         // matching types with Projectile
@@ -59,7 +59,7 @@ export default class Player {
         } else {
             this.frameX = 0;
         }
-        this.game.context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+        this.game.context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.spriteWidth, this.y - this.spriteHeight, this.spriteWidth * 2, this.spriteHeight * 2);
         this.game.context.beginPath();
         this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
         this.game.context.stroke();
