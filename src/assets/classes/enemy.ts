@@ -53,22 +53,37 @@ export default class Enemy {
         this.x = x + this.positionX;
         this.y = y + this.positionY;
         // check collision enemies - projectiles
+        if (this instanceof Eggs) {
             this.resize();
             this.game.projectilesPool.forEach(projectile => {
-                if (!projectile.free && this.game.checkCollision(this, projectile)) {
+                if (!projectile.free && this.game.checkCollision(this, projectile) && this.lives > 0) {
                     this.hit(1);
                     projectile.reset();
                 }
             });
-            this.markedForDeletion = true;
+            if (this.lives < 1) {
+                this.frameX++;
+                if (this.frameX > this.maxFrame) {
+                    this.markedForDeletion = true;
+                    if (!this.game.gameOver) this.game.score += this.maxLives;
+                }
+            }
+        }
         // check collision enemies-player
-        if (this.game.checkCollision(this, this.game.player)) {
+        if (this instanceof Eggs) {
+            if (this.game.checkCollision(this, this.game.player) && this.lives > 0) {
+                this.lives = 0;
+                this.game.player.lives--;
+            }
         }
         // lose condition
-        if (this.y + this.spriteHeight > this.game.height) {
-           
+        if (this.y + this.spriteHeight > this.game.height || this.game.player.lives < 1) {
+            // this.game.gameOver = true;
         }
     }
     hit(damage: number) {
+        if (this instanceof Eggs) {
+            this.lives -= damage;
+        }
     }
 }
