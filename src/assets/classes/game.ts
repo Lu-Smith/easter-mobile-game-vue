@@ -1,8 +1,8 @@
 import Background from './background';
 import Player from './player';
 import Projectiles from './projectiles';
-import Wave from "./waves";
 import Enemy from './enemy';
+import Wave from "./waves";
 
 export default class Game {
     canvas: HTMLCanvasElement;
@@ -21,16 +21,16 @@ export default class Game {
     numbersOfProjectiles: number;
     fired: boolean;
     //enemy
-    enemy: Enemy;
+    enemySize: number;
     columns: number;
     rows: number;
     waves: Wave[];
     waveCount: number;
-    enemySize: number;
     //background
     background: Background;
     //game logic
     gameOver: false;
+    score: number;
     //timer
     timer: number;
     eventTimer: number;
@@ -55,7 +55,6 @@ export default class Game {
         this.player = new Player(this);
         this.keys = [];
         //enemy
-        this.enemy = new Enemy(this);
         this.columns = 2;
         this.rows = 1;
         this.waves = [];
@@ -71,6 +70,7 @@ export default class Game {
         this.background = new Background(this);
         //game logic
         this.gameOver = false;
+        this.score = 0;
         //timer
         this.timer = 0;
         this.eventTimer = 0;
@@ -148,10 +148,10 @@ export default class Game {
         this.ratioWidth = Number((this.width / this.baseWidth).toFixed(2));
         this.gameOver = false;
         this.timer = 0;
+        this.score = 0;
         this.enemySize = 50 * this.ratio;
         this.background.resize();
         this.player.resize();
-        this.enemy.resize();
         this.waves.forEach(wave => {
             wave.resize();
         })
@@ -232,6 +232,8 @@ export default class Game {
         this.context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
         this.context.fillStyle = 'black';
         this.context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
+        this.context.fillText('Score: ' + this.score, 50, 20);
+        this.context.fillText('Wave: ' + this.waveCount, 100, 20);
        
     }
     newWave() {
@@ -241,6 +243,5 @@ export default class Game {
             this.rows++;
         }
         this.waves.push(new Wave(this));
-
     }
 }
