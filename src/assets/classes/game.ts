@@ -228,12 +228,16 @@ export default class Game {
         ) 
     }
     drawStatusText() {
+        this.context.save();
         this.context.strokeStyle = 'orange';
         this.context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
         this.context.fillStyle = 'black';
         this.context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
-        this.context.fillText('Score: ' + this.score, 50, 20);
-        this.context.fillText('Wave: ' + this.waveCount, 100, 20);
+        this.context.fillStyle = 'red';
+        this.context.fillText('Score: ' + this.score, 78, 20);
+        this.context.fillStyle = 'black';
+        this.context.fillText('Wave: ' + this.waveCount, 150, 20);
+        this.context.restore();
        
     }
     newWave() {
