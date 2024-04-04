@@ -98,8 +98,8 @@ export default class Game {
             if (this.gameOver) this.resize(window.innerWidth, window.innerHeight);
         });  
 
-         //keybord controls
-         window.addEventListener('keydown', e => {
+        //keybord controls
+        window.addEventListener('keydown', e => {
             if ((e.key === '1' || e.key === 'Enter' || e.key === ' ') && !this.fired) this.player.shoot();
             this.fired = true;
             if (this.keys.indexOf(e.key) === -1) this.keys.push(e.key);
@@ -113,17 +113,17 @@ export default class Game {
             if (index > -1) this.keys.splice(index, 1);
         })
 
-         //touch controls
-         this.canvas.addEventListener('touchstart', e => {
+        //touch controls
+        this.canvas.addEventListener('touchstart', e => {
             this.player.shoot();
             this.touchStartX = e.changedTouches[0].pageX;
         });
 
         this.canvas.addEventListener('touchmove', e => {
             e.preventDefault();
-         })
+        })
  
-         this.canvas.addEventListener('touchend', e => {
+        this.canvas.addEventListener('touchend', e => {
             if (!this.gameOver) {
                 if (e.changedTouches[0].pageX - this.touchStartX > (this.swipeDistance * 2)) {
                     this.right = 1;
@@ -139,8 +139,7 @@ export default class Game {
             } else {
                 this.resize(window.innerWidth, window.innerHeight);
             }
-           
-         });
+        });
     }
     resize(width: number, height: number) {     
         this.canvas.width = width;
@@ -186,7 +185,7 @@ export default class Game {
                 this.newWave();
                 this.waveCount++;
                 wave.nextWaveTrigger = true;
-                if (this.player.lives <= this.player.maxLives) this.player.lives++;
+                if (this.player.lives < this.player.maxLives) this.player.lives++;
             } 
             else if (this.gameOver) {
                 this.waves = [];
