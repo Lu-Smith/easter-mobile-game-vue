@@ -59,7 +59,7 @@ export default class Enemy {
             this.resize();
             this.game.projectilesPool.forEach(projectile => {
                 if (!projectile.free && this.game.checkCollision(this, projectile) && this.lives > 0) {
-                    // this.hit(1);
+                    this.hit(1);
                     projectile.reset();
                 }
             });
@@ -80,7 +80,7 @@ export default class Enemy {
         }
         // lose condition
         if (this.y + this.spriteHeight > this.game.height || this.game.player.lives < 1) {
-            // this.game.gameOver = true;
+            this.game.gameOver = true;
         }
     }
     hit(damage: number) {
