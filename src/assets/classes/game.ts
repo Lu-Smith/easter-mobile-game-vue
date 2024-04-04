@@ -235,11 +235,34 @@ export default class Game {
         this.context.strokeStyle = 'orange';
         this.context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
         this.context.fillStyle = 'black';
-        this.context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
+        this.context.fillText('Timer: ' + this.formatTimer(), 20, 20); 
         this.context.fillStyle = 'red';
-        this.context.fillText('Score: ' + this.score, 78, 20);
+        this.context.fillText('Score: ' + this.score, 88, 20);
         this.context.fillStyle = 'black';
-        this.context.fillText('Wave: ' + this.waveCount, 150, 20);
+        this.context.fillText('Wave: ' + this.waveCount, 160, 20);
+        this.context.lineWidth = 1.5;
+        for (let i = 0; i < this.player.maxLives; i++) {
+            if ( this.player.lives < 2) {
+                this.context.strokeStyle = '#f1b963';
+            } else {
+                this.context.strokeStyle = '#3baea0';
+            }
+            this.context.shadowOffsetX = 0.6;
+            this.context.shadowOffsetY = 0.6;
+            this.context.shadowColor = 'black';
+            this.context.strokeRect(this.width - 30 - 15 * i, 8, 9, 15)
+        }
+        for (let i = 0; i < this.player.lives; i++) {
+            if ( this.player.lives < 2) {
+                this.context.fillStyle = '#ff7e67';
+            } else {
+              this.context.fillStyle = '#118a7e';
+            }
+            this.context.shadowOffsetX = 0;
+            this.context.shadowOffsetY = 0;
+            this.context.shadowColor ='none';
+            this.context.fillRect(this.width - 30 - 15 * i, 8, 9, 15);
+        }
         if (this.gameOver) {
             this.context.textAlign = 'center';
             this.context.font = '50px Impact';
