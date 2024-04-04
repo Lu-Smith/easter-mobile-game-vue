@@ -31,6 +31,7 @@ export default class Game {
     //game logic
     gameOver: false;
     score: number;
+    debug: boolean;
     //timer
     timer: number;
     eventTimer: number;
@@ -71,6 +72,7 @@ export default class Game {
         //game logic
         this.gameOver = false;
         this.score = 0;
+        this.debug = false;
         //timer
         this.timer = 0;
         this.eventTimer = 0;
@@ -101,6 +103,7 @@ export default class Game {
             if ((e.key === '1' || e.key === 'Enter' || e.key === ' ') && !this.fired) this.player.shoot();
             this.fired = true;
             if (this.keys.indexOf(e.key) === -1) this.keys.push(e.key);
+            if (e.key.toLowerCase() === 'd') this.debug = !this.debug;     
             if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);  
         });
 
