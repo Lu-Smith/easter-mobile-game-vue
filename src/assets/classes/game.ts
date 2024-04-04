@@ -240,6 +240,13 @@ export default class Game {
         this.context.fillText('Score: ' + this.score, 78, 20);
         this.context.fillStyle = 'black';
         this.context.fillText('Wave: ' + this.waveCount, 150, 20);
+        if (this.gameOver) {
+            this.context.textAlign = 'center';
+            this.context.font = '50px Impact';
+            this.context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
+            this.context.font = '15px Ariel';
+            this.context.fillText('Press "R" ot tap to play again.', this.width * 0.5, this.height * 0.54);
+        }
         this.context.restore();
        
     }
