@@ -186,6 +186,7 @@ export default class Game {
                 this.newWave();
                 this.waveCount++;
                 wave.nextWaveTrigger = true;
+                if (this.player.lives <= this.player.maxLives) this.player.lives++;
             } 
             else if (this.gameOver) {
                 this.waves = [];
