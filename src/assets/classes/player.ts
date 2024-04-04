@@ -59,7 +59,7 @@ export default class Player {
         } else {
             this.frameX = 0;
         }
-        this.game.context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.spriteWidth, this.y - this.spriteHeight, this.spriteWidth * 2, this.spriteHeight * 2);
+        this.game.context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.width, this.y - this.height, this.width * 2, this.height * 2);
         if (this.game.debug) {
             this.game.context.beginPath();
             this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
