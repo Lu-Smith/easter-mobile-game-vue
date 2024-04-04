@@ -60,9 +60,11 @@ export default class Player {
             this.frameX = 0;
         }
         this.game.context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.spriteWidth, this.y - this.spriteHeight, this.spriteWidth * 2, this.spriteHeight * 2);
-        this.game.context.beginPath();
-        this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
-        this.game.context.stroke();
+        if (this.game.debug) {
+            this.game.context.beginPath();
+            this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
+            this.game.context.stroke();
+        }
     } 
     shoot() {
         const projectile = this.game.getProjectile();
