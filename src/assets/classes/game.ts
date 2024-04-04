@@ -29,7 +29,7 @@ export default class Game {
     //background
     background: Background;
     //game logic
-    gameOver: false;
+    gameOver: boolean;
     score: number;
     debug: boolean;
     //timer
