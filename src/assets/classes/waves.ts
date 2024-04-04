@@ -26,7 +26,7 @@ export default class Wave {
         this.create();
     }
     render(context: CanvasRenderingContext2D) {
-        if(this.y < this.height/this.game.rows) this.y += 5;
+        if(this.y < this.height/this.game.rows + this.height/this.game.rows ) this.y += 5;
         this.speedY = 0;
         if ( this.x < 60 || this.x > this.game.width - this.width - 20)  {
             this.speedX *= -1;
