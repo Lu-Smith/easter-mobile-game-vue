@@ -18,9 +18,9 @@ export default class Eggs extends Enemy {
         this.frameX = 0;
         this.maxFrame = 2;
         this.frameY1 = 0;
-        this.frameY2 = 1;
-        this.frameY3 = 2;
-        this.frameY4 = 3;
+        this.frameY2 = 0.72;
+        this.frameY3 = 1.44;
+        this.frameY4 = 2.16;
         this.lives = 1;
         this.maxLives = this.lives;
     }
