@@ -1,3 +1,4 @@
+import Eggs from './eggs';
 import Enemy from './enemy';
 import Game from './game';
 
@@ -44,7 +45,7 @@ export default class Wave {
             for(let x = 0; x < this.game.columns; x++) {
                 let enemyX = x * this.game.enemySize;
                 let enemyY = y * this.game.enemySize;
-                this.enemies.push(new Enemy(this.game, enemyX, enemyY));
+                this.enemies.push(new Eggs(this.game, enemyX, enemyY));
             }
         }
     }
