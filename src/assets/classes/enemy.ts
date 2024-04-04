@@ -16,8 +16,8 @@ export default class Enemy {
 
     constructor(game: Game, positionX: number, positionY: number) {
         this.game = game;
-        this.spriteWidth = 40;
-        this.spriteHeight = 40;
+        this.spriteWidth = 70;
+        this.spriteHeight = 70;
         this.scaledWidth = this.spriteWidth * this.game.ratio;
         this.scaledHeight = this.spriteHeight * this.game.ratio;
         this.collisionRadius = this.scaledWidth * 0.35;
@@ -30,18 +30,18 @@ export default class Enemy {
     resize() {
         this.scaledWidth = this.spriteWidth * this.game.ratio;
         this.scaledHeight = this.spriteHeight * this.game.ratio;
-        this.collisionRadius = this.scaledWidth * 0.35;
+        this.collisionRadius = this.scaledWidth * 0.5;
     }
     draw(context: CanvasRenderingContext2D){
         if (this instanceof Eggs) {
             if (this.game.waveCount % 2 === 0 && this.game.waveCount % 3 !== 0) {
-                context.drawImage(this.image, this.frameX * this.scaledWidth, this.frameY1 * this.scaledHeight, this.scaledWidth * 1.3, this.scaledHeight, this.x - this.scaledWidth * 0.5, this.y - this.scaledHeight, this.scaledWidth, this.scaledHeight);
+                context.drawImage(this.image, this.x - this.collisionRadius, this.y - this.collisionRadius * 2, this.scaledWidth * 0.5, this.scaledHeight * 0.5);
             } else if (this.game.waveCount % 2 !== 0 && this.game.waveCount % 3 === 0 && this.game.waveCount % 5 !== 0) {
-                context.drawImage(this.image, this.frameX * this.scaledWidth, this.frameY2 * this.scaledHeight, this.scaledWidth * 1.3, this.scaledHeight, this.x - this.scaledWidth * 0.5, this.y - this.scaledHeight, this.scaledWidth, this.scaledHeight);
+                context.drawImage(this.image, this.x - this.collisionRadius, this.y - this.collisionRadius * 2, this.scaledWidth * 0.5, this.scaledHeight * 0.5);
             } else if (this.game.waveCount % 2 !== 0 && this.game.waveCount % 5 === 0) {
-                context.drawImage(this.image, this.frameX * this.scaledWidth, this.frameY3 * this.scaledHeight, this.scaledWidth * 1.3, this.scaledHeight, this.x - this.scaledWidth * 0.5, this.y - this.scaledHeight, this.scaledWidth, this.scaledHeight);
+                context.drawImage(this.image, this.x - this.collisionRadius, this.y - this.collisionRadius * 2, this.scaledWidth * 0.5, this.scaledHeight * 0.5);
             } else {
-                context.drawImage(this.image, this.frameX * this.scaledWidth, this.frameY4 * this.scaledHeight, this.scaledWidth * 1.3, this.scaledHeight, this.x - this.scaledWidth * 0.5, this.y - this.scaledHeight, this.scaledWidth, this.scaledHeight);
+                context.drawImage(this.image, this.x - this.collisionRadius, this.y - this.collisionRadius * 2, this.scaledWidth * 0.5, this.scaledHeight * 0.5);
             }
         }
         if (this.game.debug) {
