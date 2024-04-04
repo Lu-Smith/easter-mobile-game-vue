@@ -44,10 +44,12 @@ export default class Enemy {
                 context.drawImage(this.image, this.frameX * this.scaledWidth, this.frameY4 * this.scaledHeight, this.scaledWidth * 1.3, this.scaledHeight, this.x - this.scaledWidth * 0.5, this.y - this.scaledHeight, this.scaledWidth, this.scaledHeight);
             }
         }
-        context.beginPath();
-        context.arc(this.x, this.y - this.collisionRadius, 
-            this.collisionRadius, 0, Math.PI * 2);
-        context.stroke();
+        if (this.game.debug) {
+            context.beginPath();
+            context.arc(this.x, this.y - this.collisionRadius, 
+                this.collisionRadius, 0, Math.PI * 2);
+            context.stroke();
+        }
     }
     update(x: number, y: number) {
         this.x = x + this.positionX;
