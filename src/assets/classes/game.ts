@@ -55,7 +55,7 @@ export default class Game {
         this.player = new Player(this);
         this.keys = [];
         //enemy
-        this.columns = 2;
+        this.columns = 4;
         this.rows = 2;
         this.waves = [];
         this.waves.push(new Wave(this));
@@ -151,9 +151,10 @@ export default class Game {
             wave.resize();
         })
         //enemy
-        this.columns = 2;
+        this.columns = 4;
         this.rows = 2;
         this.waveCount = 1;
+        this.waves = [];
         this.newWave();
     }
     render(context: CanvasRenderingContext2D, deltaTime: number, playing: boolean) {
@@ -264,6 +265,8 @@ export default class Game {
             context.textAlign = 'center';
             context.font = '50px Impact';
             context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
+            context.font = '15px Impact';
+            context.fillText('Your score: ' + this.score + '!', this.width * 0.5, this.height * 0.42);
         }
         context.restore();
        
