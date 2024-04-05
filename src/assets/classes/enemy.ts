@@ -27,11 +27,6 @@ export default class Enemy {
         this.positionY = positionY;
         this.markedForDeletion = false;
     }
-    resize() {
-        this.scaledWidth = this.spriteWidth * this.game.ratio;
-        this.scaledHeight = this.spriteHeight * this.game.ratio;
-        this.collisionRadius = this.scaledWidth * 0.5;
-    }
     draw(context: CanvasRenderingContext2D){
         if (this instanceof Eggs) {
             if (this.game.waveCount % 2 === 0 && this.game.waveCount % 3 !== 0) {
@@ -64,7 +59,7 @@ export default class Enemy {
                 }
             });
             if (this.lives < 1) {
-                this.frameX++;
+                if (this.game.eventUpdate) this.frameX++;
                 if (this.frameX > this.maxFrame) {
                     this.markedForDeletion = true;
                     if (!this.game.gameOver) this.game.score += this.maxLives;
@@ -73,7 +68,7 @@ export default class Enemy {
         }
         //check collision enemies-player
         if (this instanceof Eggs) {
-            if (this.game.checkCollision(this, this.game.player) && this.lives > 0) {
+            if (this.game.checkCollisionPlayer(this, this.game.player) && this.lives > 0) {
                 this.lives = 0;
                 this.game.player.lives--;
             }
@@ -82,6 +77,11 @@ export default class Enemy {
         if (this.y + this.spriteHeight > this.game.height || this.game.player.lives < 1) {
             this.game.gameOver = true;
         }
+    }
+    resize() {
+        this.scaledWidth = this.spriteWidth * this.game.ratio;
+        this.scaledHeight = this.spriteHeight * this.game.ratio;
+        this.collisionRadius = this.scaledWidth * 0.5;
     }
     hit(damage: number) {
         if (this instanceof Eggs) {
