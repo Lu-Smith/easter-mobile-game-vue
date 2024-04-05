@@ -20,9 +20,9 @@ export default class Background {
         this.scaledHeight = this.height;
         this.x = this.game.canvas.width * 0.05;
     }
-    draw(){
-        this.game.context.clearRect(0, 0, this.game.width, this.game.height);
-        this.game.context.drawImage(this.image, this.x, 35, this.scaledWidth, this.scaledHeight);
+    draw(context: CanvasRenderingContext2D){
+        context.clearRect(0, 0, this.game.width, this.game.height);
+        context.drawImage(this.image, this.x, 35, this.scaledWidth, this.scaledHeight);
     }
     resize() {
         this.scaledWidth = this.width * this.game.ratioWidth * 0.9;
