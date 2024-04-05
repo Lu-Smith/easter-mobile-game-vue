@@ -36,5 +36,4 @@ export default class Projectiles {
     reset() {
         this.free = true;
     }
-
 }
