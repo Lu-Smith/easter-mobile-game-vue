@@ -1,12 +1,12 @@
 import Background from './background';
 import Player from './player';
 import Projectiles from './projectiles';
-import Enemy from './enemy';
 import Wave from "./waves";
+import Enemy from './enemy';
 
 export default class Game {
     canvas: HTMLCanvasElement;
-    context: CanvasRenderingContext2D;
+    // context: CanvasRenderingContext2D;
     width: number;
     height: number;
     baseWidth: number;
@@ -43,9 +43,8 @@ export default class Game {
     left: number;
     right: number;
 
-    constructor(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
+    constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.context = context;
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.baseHeight = 800;
@@ -157,9 +156,6 @@ export default class Game {
         this.waves.forEach(wave => {
             wave.resize();
         })
-        //draw
-        this.context.lineWidth = 5;
-        this.context.strokeStyle = 'black';
         //enemy
         this.columns = 2;
         this.rows = 1;
@@ -167,20 +163,21 @@ export default class Game {
         this.waves = [];
         this.newWave();
     }
-    render(deltaTime: number, playing: boolean) {
+    render(context: CanvasRenderingContext2D, deltaTime: number, playing: boolean) {
+        console.log('yes');
         //background
-        this.background.draw();
+        this.background.draw(context);
         //player
-        this.player.draw();
+        this.player.draw(context);
         this.player.update();
         //projectiles
         this.projectilesPool.forEach(projectile => {
             projectile.update();
-            projectile.draw(this.context);
+            projectile.draw(context);
         });
         //enemy
         this.waves.forEach(wave => {
-            wave.render(this.context);
+            wave.render(context);
             if (wave.enemies.length < 1 && !wave.nextWaveTrigger && !this.gameOver) {
                 this.newWave();
                 this.waveCount++;
@@ -197,7 +194,7 @@ export default class Game {
         } 
         this.handlePeriodicEvents(deltaTime);
         //text
-        this.drawStatusText();
+        this.drawStatusText(context);
     }
     createProjectiles() {
         for (let i = 0; i < this.numbersOfProjectiles; i++) {
@@ -230,47 +227,47 @@ export default class Game {
             a.y + a.spriteHeight > b.y
         ) 
     }
-    drawStatusText() {
-        this.context.save();
-        this.context.strokeStyle = 'orange';
-        this.context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
-        this.context.fillStyle = 'black';
-        this.context.fillText('Timer: ' + this.formatTimer(), 20, 20); 
-        this.context.fillStyle = 'red';
-        this.context.fillText('Score: ' + this.score, 88, 20);
-        this.context.fillStyle = 'black';
-        this.context.fillText('Wave: ' + this.waveCount, 160, 20);
-        this.context.lineWidth = 1.5;
+    drawStatusText(context: CanvasRenderingContext2D) {
+        context.save();
+        context.strokeStyle = 'orange';
+        context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
+        context.fillStyle = 'black';
+        context.fillText('Timer: ' + this.formatTimer(), 20, 20); 
+        context.fillStyle = 'red';
+        context.fillText('Score: ' + this.score, 88, 20);
+        context.fillStyle = 'black';
+        context.fillText('Wave: ' + this.waveCount, 160, 20);
+        context.lineWidth = 1.5;
         for (let i = 0; i < this.player.maxLives; i++) {
             if ( this.player.lives < 2) {
-                this.context.strokeStyle = '#f1b963';
+                context.strokeStyle = '#f1b963';
             } else {
-                this.context.strokeStyle = '#3baea0';
+                context.strokeStyle = '#3baea0';
             }
-            this.context.shadowOffsetX = 0.6;
-            this.context.shadowOffsetY = 0.6;
-            this.context.shadowColor = 'black';
-            this.context.strokeRect(this.width - 30 - 15 * i, 8, 9, 15)
+            context.shadowOffsetX = 0.6;
+            context.shadowOffsetY = 0.6;
+            context.shadowColor = 'black';
+            context.strokeRect(this.width - 30 - 15 * i, 8, 9, 15)
         }
         for (let i = 0; i < this.player.lives; i++) {
             if ( this.player.lives < 2) {
-                this.context.fillStyle = '#ff7e67';
+                context.fillStyle = '#ff7e67';
             } else {
-              this.context.fillStyle = '#118a7e';
+              context.fillStyle = '#118a7e';
             }
-            this.context.shadowOffsetX = 0;
-            this.context.shadowOffsetY = 0;
-            this.context.shadowColor ='none';
-            this.context.fillRect(this.width - 30 - 15 * i, 8, 9, 15);
+            context.shadowOffsetX = 0;
+            context.shadowOffsetY = 0;
+            context.shadowColor ='none';
+            context.fillRect(this.width - 30 - 15 * i, 8, 9, 15);
         }
         if (this.gameOver) {
-            this.context.textAlign = 'center';
-            this.context.font = '50px Impact';
-            this.context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
-            this.context.font = '15px Ariel';
-            this.context.fillText('Press "R" ot tap to play again.', this.width * 0.5, this.height * 0.54);
+            context.textAlign = 'center';
+            context.font = '50px Impact';
+            context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
+            context.font = '15px Ariel';
+            context.fillText('Press "R" ot tap to play again.', this.width * 0.5, this.height * 0.54);
         }
-        this.context.restore();
+        context.restore();
        
     }
     newWave() {
