@@ -1,7 +1,7 @@
 <template>
     <div class="gameContainer">
         <button 
-        v-if="!playing"
+        v-if="!playing && !game?.gameOver"
         @click="startGame">Go</button>
         <button 
         v-if="playing"
