@@ -56,7 +56,7 @@ export default class Game {
         this.keys = [];
         //enemy
         this.columns = 2;
-        this.rows = 1;
+        this.rows = 2;
         this.waves = [];
         this.waves.push(new Wave(this));
         this.waveCount = 1;
@@ -92,18 +92,12 @@ export default class Game {
             }
         });
 
-         //mouse controls      
-         this.canvas.addEventListener('mousedown', () => {;
-            if (this.gameOver) this.resize(window.innerWidth, window.innerHeight);
-        });  
-
         //keybord controls
         window.addEventListener('keydown', e => {
             if ((e.key === '1' || e.key === 'Enter' || e.key === ' ') && !this.fired) this.player.shoot();
             this.fired = true;
             if (this.keys.indexOf(e.key) === -1) this.keys.push(e.key);
             if (e.key.toLowerCase() === 'd') this.debug = !this.debug;     
-            if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);  
         });
 
         window.addEventListener('keyup', e => {
@@ -140,7 +134,7 @@ export default class Game {
             }
         });
     }
-    resize(width: number, height: number) {     
+    resize(width: number, height: number) {       
         this.canvas.width = width;
         this.canvas.height = height;
         this.width = this.canvas.width;
@@ -158,13 +152,11 @@ export default class Game {
         })
         //enemy
         this.columns = 2;
-        this.rows = 1;
+        this.rows = 2;
         this.waveCount = 1;
-        this.waves = [];
         this.newWave();
     }
     render(context: CanvasRenderingContext2D, deltaTime: number, playing: boolean) {
-        console.log('yes');
         //background
         this.background.draw(context);
         //player
@@ -227,6 +219,14 @@ export default class Game {
             a.y + a.spriteHeight > b.y
         ) 
     }
+    checkCollisionPlayer(a: Enemy, b: Player) {
+        return (
+            a.x < b.x + b.spriteWidth &&
+            a.x + a.spriteWidth > b.x &&
+            a.y < b.y - 20 &&
+            a.y + a.spriteHeight > b.y
+        ) 
+    }
     drawStatusText(context: CanvasRenderingContext2D) {
         context.save();
         context.strokeStyle = 'orange';
@@ -264,8 +264,6 @@ export default class Game {
             context.textAlign = 'center';
             context.font = '50px Impact';
             context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
-            context.font = '15px Ariel';
-            context.fillText('Press "R" ot tap to play again.', this.width * 0.5, this.height * 0.54);
         }
         context.restore();
        
