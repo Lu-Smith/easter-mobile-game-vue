@@ -19,8 +19,8 @@ export default class Wave {
         this.height = this.game.rows * this.game.enemySize;
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = -this.height;
-        this.speedX = Math.random() < 0.5 ? -1 : 1;
-        this.speedY = 0;
+        this.speedX = Math.random() < 0.5 ? -1.5 : 1.5;
+        this.speedY = 10;
         this.enemies = [];
         this.nextWaveTrigger =false;
         this.create();
@@ -28,7 +28,7 @@ export default class Wave {
     render(context: CanvasRenderingContext2D) {
         if(this.y < this.height/this.game.rows + this.height/this.game.rows ) this.y += 5;
         this.speedY = 0;
-        if ( this.x < this.game.width * 0.1 || this.x > this.game.width * 0.8)  {
+        if (this.x < this.game.player.height * 2 || this.x > this.game.width - this.width - this.game.enemySize * 0.5)  {
             this.speedX *= -1;
             this.speedY = this.game.enemySize;
         }
