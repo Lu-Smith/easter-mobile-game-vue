@@ -8,7 +8,7 @@
         @click="pauseGame">Pause</button>
         <button 
         v-if="!playing"
-        @click="resetGame">Play Again</button>
+        @click="newGame">Play Again</button>
         <canvas ref="gameCanvas"></canvas>
         <AssetsComponent /> 
     </div>
@@ -24,7 +24,6 @@ const props = defineProps(['gameRunning']);
 //game logic
 const animationFrameId: { value?: number } = {};
 const playing = ref(true);
-const reset = ref(false);
 let game: Game | null = null;   
 const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
@@ -38,13 +37,12 @@ const animate = (playingValue: boolean) => {
         lastTimeStamp = currentTimeStamp;
  
         if (props.gameRunning && game) {
-            console.log('context', context);
             if (context) game.render(context, deltaTime, playingValue);
             if (playing.value) {
                 animationFrameId.value = requestAnimationFrame(loop);
             }
             if (game.gameOver) {
-                resetGame();
+                playing.value = false;
             }
         }    
     }   
@@ -62,15 +60,8 @@ const initializeCanvasAndAnimate = () => {
     animate(playing.value);
 }
 
-const resetGame = () => {
-    playing.value = true;
-    reset.value = true;
-    nextTick(initializeCanvasAndAnimate);
-}
-
 const newGame = () => {
     playing.value = true;
-    resetGame();
     nextTick(initializeCanvasAndAnimate);
 }
 
@@ -80,7 +71,6 @@ if (props.gameRunning) {
 
 const startGame = () => {
     playing.value = true;
-    reset.value = false;
     animate(playing.value);
 }
 
