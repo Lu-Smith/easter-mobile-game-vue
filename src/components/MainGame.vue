@@ -30,14 +30,16 @@ const gameCanvas = ref<HTMLCanvasElement | null>(null);
 
 const animate = (playingValue: boolean) => {
     let lastTimeStamp = performance.now();
+    const context = gameCanvas.value?.getContext('2d');
 
     const loop = () => {
         const currentTimeStamp = performance.now();
         const deltaTime = playingValue ? currentTimeStamp - lastTimeStamp : 0;
         lastTimeStamp = currentTimeStamp;
-
+ 
         if (props.gameRunning && game) {
-            game.render(deltaTime, playingValue);
+            console.log('context', context);
+            if (context) game.render(context, deltaTime, playingValue);
             if (playing.value) {
                 animationFrameId.value = requestAnimationFrame(loop);
             }
@@ -52,11 +54,10 @@ const animate = (playingValue: boolean) => {
 }
 
 const initializeCanvasAndAnimate = () => {
-    const context = gameCanvas.value?.getContext('2d');
-    if (context && gameCanvas.value) {
+    if (gameCanvas.value) {
         gameCanvas.value.width = 1500;
         gameCanvas.value.height = 800;
-        game = new Game(gameCanvas.value, context);
+        game = new Game(gameCanvas.value);
     }
     animate(playing.value);
 }
@@ -90,7 +91,5 @@ const pauseGame = () => {
     }
     animate(playing.value);
 }
-
-
 
 </script>
