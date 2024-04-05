@@ -59,7 +59,7 @@ export default class Enemy {
                 }
             });
             if (this.lives < 1) {
-                if (this.game.eventUpdate) this.frameX++;
+                if (this.game.eventUpdate) this.frameX += 0.75;
                 if (this.frameX > this.maxFrame) {
                     this.markedForDeletion = true;
                     if (!this.game.gameOver) this.game.score += this.maxLives;
