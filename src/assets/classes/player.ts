@@ -20,21 +20,34 @@ export default class Player {
 
     constructor(game: Game) {
         this.game =  game;
-        this.x = this.game.width * 0.5;
-        this.y = 0;
         this.spriteWidth = 35;
         this.spriteHeight = 35;
-        this.width = 0;
-        this.height = 0;
+        this.x = this.game.width * 0.5;
+        this.y = this.game.height - this.spriteHeight * 0.5;
+        this.width = this.spriteWidth * this.game.ratio;
+        this.height = this.spriteHeight * this.game.ratio;
         this.speed = 5;
         this.image = document.getElementById('player') as HTMLImageElement;
-        this.frameX = 1;
+        this.frameX = 0;
         this.lives = 3;
         this.maxLives = 10;
         // matching types with Projectile
         this.free;
         this.start;
         this.reset;
+    }
+    draw(context: CanvasRenderingContext2D) {
+        if ((this.game.keys.indexOf('1')  > -1) || (this.game.keys.indexOf(' ') > -1) || (this.game.keys.indexOf('Enter') > -1)) {
+            this.frameX = 1;
+        } else {
+            this.frameX = 0;
+        }
+       context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.width, this.y - this.height * 0.5, this.width * 2, this.height * 2);
+        if (this.game.debug) {
+           context.beginPath();
+           context.arc(this.x, this.y + this.height * 0.5, this.height, 0, Math.PI * 2);
+           context.stroke();
+        }
     }
     update() {
         //horizontal movement
@@ -53,19 +66,6 @@ export default class Player {
         else if (this.x > this.game.width - (this.height * 2)) this.x = this.game.width - (this.height * 2);
    
     }
-    draw() {
-        if ((this.game.keys.indexOf('1')  > -1) || (this.game.keys.indexOf(' ') > -1) || (this.game.keys.indexOf('Enter') > -1)) {
-            this.frameX = 1;
-        } else {
-            this.frameX = 0;
-        }
-        this.game.context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.width, this.y - this.height, this.width * 2, this.height * 2);
-        if (this.game.debug) {
-            this.game.context.beginPath();
-            this.game.context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
-            this.game.context.stroke();
-        }
-    } 
     shoot() {
         const projectile = this.game.getProjectile();
         if (projectile) {
