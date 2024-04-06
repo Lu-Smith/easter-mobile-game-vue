@@ -239,6 +239,39 @@ export default class Game {
         context.fillStyle = 'black';
         context.fillText('Wave: ' + this.waveCount, 160, 20);
         context.lineWidth = 1.5;
+        function drawEgg(x: number, y: number, radiusX: number, radiusY: number) {
+            context.beginPath();
+            context.moveTo(x, y - radiusY);
+            context.bezierCurveTo(
+              x + radiusX, y - radiusY,
+              x + radiusX, y + radiusY,
+              x, y + radiusY
+            );
+            context.bezierCurveTo(
+              x - radiusX, y + radiusY,
+              x - radiusX, y - radiusY,
+              x, y - radiusY
+            );
+            context.closePath();
+            context.fill();
+          }
+
+          function drawEggStroke(x: number, y: number, radiusX: number, radiusY: number) {
+            context.beginPath();
+            context.moveTo(x, y - radiusY);
+            context.bezierCurveTo(
+              x + radiusX, y - radiusY,
+              x + radiusX, y + radiusY,
+              x, y + radiusY
+            );
+            context.bezierCurveTo(
+              x - radiusX, y + radiusY,
+              x - radiusX, y - radiusY,
+              x, y - radiusY
+            );
+            context.closePath();
+            context.stroke();
+          }
         for (let i = 0; i < this.player.maxLives; i++) {
             if ( this.player.lives < 2) {
                 context.strokeStyle = '#f1b963';
@@ -248,7 +281,7 @@ export default class Game {
             context.shadowOffsetX = 0.6;
             context.shadowOffsetY = 0.6;
             context.shadowColor = 'black';
-            context.strokeRect(this.width - 30 - 15 * i, 8, 9, 15)
+            drawEggStroke(this.width - 30 - 17 * i, 12, 9, 10);
         }
         for (let i = 0; i < this.player.lives; i++) {
             if ( this.player.lives < 2) {
@@ -259,7 +292,7 @@ export default class Game {
             context.shadowOffsetX = 0;
             context.shadowOffsetY = 0;
             context.shadowColor ='none';
-            context.fillRect(this.width - 30 - 15 * i, 8, 9, 15);
+            drawEgg(this.width - 30 - 17 * i, 12, 9, 10);
         }
         if (this.gameOver) {
             context.textAlign = 'center';
