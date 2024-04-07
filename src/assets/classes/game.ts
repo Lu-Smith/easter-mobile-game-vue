@@ -28,6 +28,7 @@ export default class Game {
     waveCount: number;
     //background
     background: Background;
+    speed: number;
     //game logic
     gameOver: boolean;
     score: number;
@@ -68,6 +69,7 @@ export default class Game {
          this.createProjectiles();
         //background
         this.background = new Background(this);
+        this.speed = 0;
         //game logic
         this.gameOver = false;
         this.score = 0;
@@ -134,7 +136,7 @@ export default class Game {
             }
         });
     }
-    resize(width: number, height: number) {       
+    resize(width: number, height: number) {    
         this.canvas.width = width;
         this.canvas.height = height;
         this.width = this.canvas.width;
@@ -146,6 +148,7 @@ export default class Game {
         this.score = 0;
         this.enemySize = 50 * this.ratio;
         this.background.resize();
+        this.speed = 2 * this.ratio;
         this.player.resize();
         this.waves.forEach(wave => {
             wave.resize();
@@ -162,6 +165,8 @@ export default class Game {
         context.lineWidth = 1.5;
         //background
         this.background.draw(context);
+        this.background.update();
+        this.speed = 2 * this.ratio;
         //player
         this.player.draw(context);
         this.player.update();
@@ -297,9 +302,9 @@ export default class Game {
             context.textAlign = 'center';
             context.font = '50px Impact';
             context.fillStyle = 'white';
-            context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
+            context.fillText('Game Over!', this.width * 0.5, this.height * 0.4);
             context.font = '15px Impact';
-            context.fillText('Your score: ' + this.score + '!', this.width * 0.5, this.height * 0.42);
+            context.fillText('Your score: ' + this.score + '!', this.width * 0.5, this.height * 0.52);
         }
         context.restore();
        
