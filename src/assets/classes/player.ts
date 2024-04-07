@@ -44,8 +44,8 @@ export default class Player {
         }
        context.drawImage(this.image, this.frameX * this.spriteWidth * 2, 0, this.spriteWidth * 2, this.spriteHeight * 2, this.x - this.width, this.game.background.scaledHeight - this.height, this.width * 2, this.height * 2);
         if (this.game.debug) {
-            context.strokeStyle = 'white';
-            context.lineWidth = 1.5;   
+        context.strokeStyle = 'white';
+        context.lineWidth = 1.5;   
            context.beginPath();
            context.arc(this.x, this.y + this.height * 0.5, this.height, 0, Math.PI * 2);
            context.stroke();
@@ -64,9 +64,9 @@ export default class Player {
             this.x += this.game.right;
         } 
         //horizontal boundries
-        if (this.x < this.height) this.x = this.height;
+        if (this.x < this.game.width * 0.05 + this.height) this.x = this.game.width * 0.05 + this.height;
         else if (this.x > this.game.width - (this.height)) this.x = this.game.width - (this.height);
-        else if (this.x > this.game.background.scaledWidth + (this.height)) this.x = this.game.background.scaledWidth + (this.height);
+        else if (this.x > this.game.background.scaledWidth + this.height) this.x = this.game.background.scaledWidth + this.height;
    
     }
     shoot() {
