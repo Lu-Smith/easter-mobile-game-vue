@@ -21,10 +21,12 @@ export default class Eggs extends Enemy {
         this.frameY2 = 0.72;
         this.frameY3 = 1.44;
         this.frameY4 = 2.16;
-        this.lives = 1;
+        this.lives = 2;
         this.maxLives = this.lives;
     }
     resize() {
-        this.image = document.getElementById('eggs') as HTMLImageElement;
+        if (this.lives === 1) this.image = document.getElementById('chicks') as HTMLImageElement;
+        if (this.lives === 2) this.image = document.getElementById('eggs') as HTMLImageElement;
+        
     }
 }

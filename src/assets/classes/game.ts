@@ -158,6 +158,8 @@ export default class Game {
         this.newWave();
     }
     render(context: CanvasRenderingContext2D, deltaTime: number, playing: boolean) {
+        context.fillStyle = 'white';
+        context.lineWidth = 1.5;
         //background
         this.background.draw(context);
         //player
@@ -230,15 +232,12 @@ export default class Game {
     }
     drawStatusText(context: CanvasRenderingContext2D) {
         context.save();
-        context.strokeStyle = 'orange';
-        context.strokeRect(this.canvas.width * 0.05, 35, this.canvas.width * 0.9, this.canvas.height * 0.8);
         context.fillStyle = 'black';
         context.fillText('Timer: ' + this.formatTimer(), 20, 20); 
         context.fillStyle = 'red';
         context.fillText('Score: ' + this.score, 88, 20);
         context.fillStyle = 'black';
         context.fillText('Wave: ' + this.waveCount, 160, 20);
-        context.lineWidth = 1.5;
         function drawEgg(x: number, y: number, radiusX: number, radiusY: number) {
             context.beginPath();
             context.moveTo(x, y - radiusY);
@@ -297,6 +296,7 @@ export default class Game {
         if (this.gameOver) {
             context.textAlign = 'center';
             context.font = '50px Impact';
+            context.fillStyle = 'white';
             context.fillText('Game Over!', this.width * 0.5, this.height * 0.5);
             context.font = '15px Impact';
             context.fillText('Your score: ' + this.score + '!', this.width * 0.5, this.height * 0.42);
