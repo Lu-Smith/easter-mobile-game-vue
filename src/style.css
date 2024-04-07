@@ -13,8 +13,14 @@
 
 body {
   overflow: hidden;
+  text-align: center;
+  margin: 10px;
 }
 
-#background1 {
- display: none;
+button {
+  padding: 3px 7px;
+  border-radius: 5px;
+  border: 2px solid rgb(115, 14, 14);
+  background-color: rgb(246, 167, 167);
+  font-weight: 600;
 }
