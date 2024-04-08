@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1 v-if="!gameRunning" >East Bunny Hunt</h1>
+  <div class="App">
+    <h1 v-if="!gameRunning"><span>Easter</span> Egg Hunt</h1>
     <DescriptionComponent v-if="!gameRunning" />
     <button @click="startNewGame" v-if="!gameRunning">Start</button>
     <MainGame v-if="gameRunning" :gameRunning="gameRunning"/>
@@ -23,6 +23,3 @@ const startNewGame = () => {
   gameRunning.value = !gameRunning.value;
 }
 </script>
-
-<style scoped>
-</style>
