@@ -3,6 +3,7 @@ import Player from './player';
 import Projectiles from './projectiles';
 import Wave from "./waves";
 import Enemy from './enemy';
+import Audio from './audio';
 
 export default class Game {
     canvas: HTMLCanvasElement;
@@ -43,6 +44,8 @@ export default class Game {
     swipeDistance: number;
     left: number;
     right: number;
+    //sound
+    sound: Audio;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -84,6 +87,8 @@ export default class Game {
         this.swipeDistance = 50;
         this.left = 0;
         this.right = 0;
+        //sound
+        this.sound = new Audio();
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -221,18 +226,18 @@ export default class Game {
     }
     checkCollision(a: Enemy, b: Projectiles) {
         return (
-            a.x < b.x + b.width &&
-            a.x + a.spriteWidth > b.x &&
+            a.x - a.collisionRadius < b.x + b.width &&
+            a.x + a.collisionRadius > b.x &&
             a.y < b.y + b.height &&
-            a.y + a.spriteHeight > b.y
+            a.y + a.collisionRadius > b.y
         ) 
     }
     checkCollisionPlayer(a: Enemy, b: Player) {
         return (
-            a.x < b.x + b.spriteWidth &&
-            a.x + a.spriteWidth > b.x &&
-            a.y < b.y - 20 &&
-            a.y + a.spriteHeight > b.y
+            a.x - a.collisionRadius < b.x + b.spriteWidth &&
+            a.x + a.collisionRadius > b.x &&
+            a.y < b.y + b.height &&
+            a.y + a.collisionRadius > b.y
         ) 
     }
     drawStatusText(context: CanvasRenderingContext2D) {
