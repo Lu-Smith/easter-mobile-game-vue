@@ -53,4 +53,11 @@ const showInstructions = () => {
         background-color: #feffdf;
     }
 
+    @media screen and (max-width: 786px) {
+        .instructionsContainer {
+            border: 1px solid #feffdf;
+            padding: 10px 30px 40px 30px;
+        }
+    }
+
 </style>
