@@ -1,14 +1,17 @@
 <template>
     <div class="gameContainer">
-        <button 
-        v-if="!playing && !game?.gameOver"
-        @click="startGame">Go</button>
-        <button 
-        v-if="playing"
-        @click="pauseGame">Pause</button>
-        <button 
-        v-if="!playing"
-        @click="newGame">Play Again</button>
+        <div class="buttonsContainer">
+            <button 
+            v-if="!playing && !game?.gameOver"
+            @click="startGame"
+            class="go">Go</button>
+            <button 
+            v-if="playing"
+            @click="pauseGame">Pause</button>
+            <button 
+            v-if="!playing"
+            @click="newGame">Play Again</button>
+        </div>
         <canvas ref="gameCanvas"></canvas>
         <AssetsComponent /> 
     </div>
@@ -83,3 +86,31 @@ const pauseGame = () => {
 }
 
 </script>
+
+<style scoped>
+    .gameContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .buttonsContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    button {
+        background-color: rgb(242, 181, 107);
+    }
+
+    .go {
+        background-color: rgb(193, 21, 21);
+        color: aliceblue;
+    }
+</style>
