@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 :root {
   font-synthesis: none;
@@ -16,19 +16,77 @@
 body {
   overflow: hidden;
   text-align: center;
-  margin: 10px;
+  margin: 15px auto;
   font-family: "Roboto", sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: #feffdf;
 }
 
 button {
   padding: 3px 7px;
   border-radius: 5px;
-  border: 2px solid rgb(115, 14, 14);
-  background-color: rgb(246, 167, 167);
+  border: 2px solid #ef5a5a;
+  background-color: #ffe79a;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  color: #d63333;
 }
 
 h1 {
   font-size: 40px;
   line-height: 50px;
+  color: #ef5a5a;
+}
+
+h1 span {
+  font-weight: 800;
+  color: #ffa952;
+}
+
+h3 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+h4 {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+p {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+ol {
+  margin-top: 20px;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+a {
+  color: #ef5a5a;
+  text-decoration: none;
+  transition: all 200ms ease-in-out;
+}
+
+a:hover {
+  color: #ffa952;
+}
+
+.assets {
+  display: none;
 }
