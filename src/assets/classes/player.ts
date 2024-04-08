@@ -47,7 +47,7 @@ export default class Player {
         context.strokeStyle = 'white';
         context.lineWidth = 1.5;   
            context.beginPath();
-           context.arc(this.x, this.y + this.height * 0.5, this.height, 0, Math.PI * 2);
+           context.arc(this.x, this.y, this.height, 0, Math.PI * 2);
            context.stroke();
         }
     }
@@ -73,6 +73,7 @@ export default class Player {
         const projectile = this.game.getProjectile();
         if (projectile) {
             projectile.start(this.x, this.y - this.height * 0.5); 
+            this.game.sound.play(this.game.sound.shoot);
         }
     } 
     resize() {
