@@ -11,6 +11,14 @@
             <button 
             v-if="!playing"
             @click="newGame">Play Again</button>
+            <button 
+            v-if="!playing"
+            @click="handleToggleHome"
+            class="homeButton">
+                <span class="material-symbols-outlined">
+                home
+                </span>
+            </button>
         </div>
         <canvas ref="gameCanvas"></canvas>
         <AssetsComponent /> 
@@ -23,6 +31,11 @@ import { ref, nextTick } from 'vue';
 import Game from '../assets/classes/game.ts';
 
 const props = defineProps(['gameRunning']);
+const emit = defineEmits(['toggleHome']);
+
+const handleToggleHome = () => {
+    emit('toggleHome');
+}
 
 //game logic
 const animationFrameId: { value?: number } = {};
@@ -111,9 +124,17 @@ const pauseGame = () => {
         border: 2px solid #70d8e8;
     }
 
-    .go {
+    .go, .homeButton {
         background-color: rgb(193, 21, 21);
         color: aliceblue;
         border: 2px solid #f12f2f;
+        width: 40px;
+        height: 30px;
+    }
+
+    .material-symbols-outlined {
+        font-size: 15px;
+        padding: 0;
+        color: white;
     }
 </style>
