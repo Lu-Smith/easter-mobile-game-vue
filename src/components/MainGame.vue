@@ -93,7 +93,7 @@ const pauseGame = () => {
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 20px;
+        gap: 0;
     }
 
     .buttonsContainer {
@@ -102,7 +102,7 @@ const pauseGame = () => {
         justify-content: center;
         flex-direction: row;
         gap: 20px;
-        margin-top: 15px;
+        margin: 10px;
     }
 
     button {
