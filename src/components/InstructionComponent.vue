@@ -15,14 +15,14 @@
                     <h4>Press <span>Enter</span> or <span>Space</span> key or <span>Tap</span> to shoot.</h4>
                 </li>
                 <li> 
-                    <h4>Press <span>Left Arrow</span> or <span>swipe left</span> to move left.</h4>
+                    <h4>Press <span>Left Arrow</span> or <span>Swipe Left</span> to move left.</h4>
                 </li>
                 <li> 
-                    <h4>Press <span>Right Arrow</span> or <span>swipe right</span> to move right.</h4>
+                    <h4>Press <span>Right Arrow</span> or <span>Swipe Right</span> to move right.</h4>
                 </li>
             
                 <li> 
-                    <h4>Press <span>R</span> or <span>tap</span> to restart.</h4>
+                    <h4>Press <span>Play Again</span> to restart.</h4>
                 </li>
             </ol>
         </div>
@@ -41,13 +41,14 @@ const showInstructions = () => {
 
 <style scoped>
     .instructionsContainer {
-        border: 2px solid black;
-        padding: 15px 45px 20px 45px;
-        border-radius: 10px;
-        background-color: #ffe79a;
+        border: 2px solid #feffdf;
+        padding: 15px 45px 50px 45px;
+        border-radius: 50%;
+        background-color: #efe296;
+        color: #1a1a1a;;
     }
     .infoButton {
-        color: #000;
+        color: #1a1a1a;;
         margin-bottom: 20px;
         background-color: #feffdf;
     }
