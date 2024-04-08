@@ -58,7 +58,6 @@ export default class Enemy {
                     projectile.reset();
                 }
             });
-            console.log(this.lives);
             if (this.lives < 2 && this.lives > 1) {
                 if (this.game.eventUpdate) this.frameX += 0.75;
             }
@@ -66,7 +65,7 @@ export default class Enemy {
                 if (this.game.eventUpdate) this.frameX += 0.75;
                 if (this.frameX > this.maxFrame) {
                     this.markedForDeletion = true;
-                    if (!this.game.gameOver) this.game.score += this.maxLives;
+                    if (!this.game.gameOver) this.game.score += 1;
                 }
             }
         }
@@ -80,6 +79,7 @@ export default class Enemy {
         // lose condition
         if (this.y + this.spriteHeight > this.game.height || this.game.player.lives < 1) {
             this.game.gameOver = true;
+            this.game.sound.play(this.game.sound.lose);
         }
     }
     resize() {
