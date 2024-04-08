@@ -3,7 +3,7 @@
     <h1 v-if="!gameRunning"><span>Easter</span> Egg Hunt</h1>
     <DescriptionComponent v-if="!gameRunning" />
     <button @click="startNewGame" v-if="!gameRunning">Start</button>
-    <MainGame v-if="gameRunning" :gameRunning="gameRunning"/>
+    <MainGame v-if="gameRunning" :gameRunning="gameRunning" @toggleHome="toggleHome"/>
     <InstructionComponent v-if="!gameRunning" />
     <FooterComponent v-if="!gameRunning" />
   </div>
@@ -21,5 +21,9 @@ const gameRunning = ref(false);
 
 const startNewGame = () => {
   gameRunning.value = !gameRunning.value;
+}
+
+const toggleHome = () => {
+  gameRunning.value = false;
 }
 </script>
