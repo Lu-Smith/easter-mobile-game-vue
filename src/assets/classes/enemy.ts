@@ -18,8 +18,15 @@ export default class Enemy {
         this.game = game;
         this.spriteWidth = 70;
         this.spriteHeight = 68;
-        this.scaledWidth = this.spriteWidth * this.game.ratio;
-        this.scaledHeight = this.spriteHeight * this.game.ratio;
+        if (this.game.width < 800) {
+            this.scaledWidth = this.spriteWidth * this.game.ratio * 0.75;
+            this.scaledHeight = this.spriteHeight * this.game.ratio * 0.75;
+            this.collisionRadius = this.scaledWidth * 0.5 * 0.75;
+        } else {
+            this.scaledWidth = this.spriteWidth * this.game.ratio;
+            this.scaledHeight = this.spriteHeight * this.game.ratio;
+            this.collisionRadius = this.scaledWidth * 0.5;
+        }
         this.collisionRadius = this.scaledWidth * 0.35;
         this.x = 0;
         this.y = 0;
@@ -47,8 +54,14 @@ export default class Enemy {
         }
     }
     update(x: number, y: number) {
-        this.x = x + this.positionX;
-        this.y = y + this.positionY;
+        if (this.game.width < 800) {
+            this.x = (x + this.positionX) * 0.75;
+            this.y = (y + this.positionY) * 0.75;
+        } else {
+            this.x = x + this.positionX;
+            this.y = y + this.positionY;
+        }
+
         //check collision enemies - projectiles
         if (this instanceof Eggs) {
             this.resize();
@@ -83,9 +96,17 @@ export default class Enemy {
         }
     }
     resize() {
-        this.scaledWidth = this.spriteWidth * this.game.ratio;
-        this.scaledHeight = this.spriteHeight * this.game.ratio;
-        this.collisionRadius = this.scaledWidth * 0.5;
+        if (this.game.width < 800) {
+            this.scaledWidth = this.spriteWidth * this.game.ratio * 0.75;
+            this.scaledHeight = this.spriteHeight * this.game.ratio * 0.75;
+            this.collisionRadius = this.scaledWidth * 0.5 * 0.75;
+            this.x = this.x * 0.75;
+            this.y = this.y * 0.75;
+        } else {
+            this.scaledWidth = this.spriteWidth * this.game.ratio;
+            this.scaledHeight = this.spriteHeight * this.game.ratio;
+            this.collisionRadius = this.scaledWidth * 0.5;
+        }
     }
     hit(damage: number) {
         if (this instanceof Eggs) {
