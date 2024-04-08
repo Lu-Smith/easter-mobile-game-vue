@@ -38,3 +38,18 @@ const showInstructions = () => {
     showInfo.value = !showInfo.value;
 }
 </script>
+
+<style scoped>
+    .instructionsContainer {
+        border: 2px solid black;
+        padding: 15px 45px 20px 45px;
+        border-radius: 10px;
+        background-color: #ffe79a;
+    }
+    .infoButton {
+        color: #000;
+        margin-bottom: 20px;
+        background-color: #feffdf;
+    }
+
+</style>
