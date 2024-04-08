@@ -102,15 +102,18 @@ const pauseGame = () => {
         justify-content: center;
         flex-direction: row;
         gap: 20px;
-        margin-top: 40px;
+        margin-top: 15px;
     }
 
     button {
-        background-color: rgb(242, 181, 107);
+        background-color: #efe296;
+        color: #1a1a1a;
+        border: 2px solid #70d8e8;
     }
 
     .go {
         background-color: rgb(193, 21, 21);
         color: aliceblue;
+        border: 2px solid #f12f2f;
     }
 </style>
