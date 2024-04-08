@@ -33,7 +33,7 @@ body {
 }
 
 button {
-  padding: 3px 7px;
+  padding: 5px 9px;
   border-radius: 5px;
   border: 2px solid #1e85f4;
   background-color: #1a1a1a;
@@ -105,5 +105,48 @@ a:hover {
 }
 
 canvas {
-  background-color: #e6ad6c;
+  background-color: #f0a958;
+}
+
+@media screen and (max-width: 786px) {
+    button {
+    border-radius: 3px;
+    border: 1px solid #1e85f4;
+    font-weight: 500;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  }
+
+  h1 {
+    font-size: 32px;
+    line-height: 42px;
+  }
+  
+  h1 span {
+    font-weight: 600;
+  }
+  
+  h3 {
+    font-size: 10px;
+    line-height: 16px;
+  }
+  
+  h4 {
+    font-size: 10px;
+    line-height: 14px;
+  }
+  
+  h4 span {
+    font-weight: 700;
+  }
+  
+  p {
+    font-size: 10px;
+    line-height: 16px;
+  }
+  
+  ol {
+    margin: 5px 0 0 40px;
+    padding: 5px;
+    width: 260px;
+  }
 }
