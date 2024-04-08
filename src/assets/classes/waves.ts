@@ -19,8 +19,12 @@ export default class Wave {
         this.height = this.game.rows * this.game.enemySize;
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = -this.height;
-        this.speedX = Math.random() < 0.5 ? -1.5 : 1.5;
-        this.speedY = 10;
+        if (this.game.width > 700) {
+            this.speedX = Math.random() < 0.5 ? -3.5 : 3.5;
+        } else { 
+            this.speedX = Math.random() < 0.5 ? -1.5 : 1.5;
+        }
+        this.speedY = 0;
         this.enemies = [];
         this.nextWaveTrigger =false;
         this.create();
@@ -28,9 +32,16 @@ export default class Wave {
     render(context: CanvasRenderingContext2D) {
         if(this.y < this.height/this.game.rows + this.height/this.game.rows ) this.y += 5;
         this.speedY = 0;
-        if (this.x < this.game.background.x || this.x > this.game.background.x * 19.5 - this.game.enemySize * (this.game.columns - 1))  {
-            this.speedX *= -1;
-            this.speedY = this.game.enemySize;
+        if (this.game.width < 800) {
+            if (this.x < this.game.background.x || this.x > this.game.background.x * 24 - this.game.enemySize * 0.75 * (this.game.columns - 1))  {
+                this.speedX *= -1;
+                this.speedY = this.game.enemySize * 0.75;
+            }
+        } else {
+            if (this.x < this.game.background.x || this.x > this.game.background.x * 19 - this.game.enemySize * (this.game.columns - 1))  {
+                this.speedX *= -1;
+                this.speedY = this.game.enemySize;
+            }
         }
         this.x += this.speedX;
         this.y += this.speedY;
@@ -50,11 +61,21 @@ export default class Wave {
         }
     }
     resize() {
-        this.width = this.game.columns * this.game.enemySize;
-        this.height = this.game.rows * this.game.enemySize;
-        this.enemies.forEach(enemy => {
-            enemy.spriteWidth = this.game.enemySize;
-            enemy.spriteHeight = this.game.enemySize;
-        })
+        if (this.game.width < 800) {
+            this.width = this.game.columns * this.game.enemySize * 0.75;
+            this.height = this.game.rows * this.game.enemySize * 0.75;
+            this.enemies.forEach(enemy => {
+                enemy.spriteWidth = this.game.enemySize * 0.75;
+                enemy.spriteHeight = this.game.enemySize * 0.75;
+            });
+        } else {
+            this.width = this.game.columns * this.game.enemySize;
+            this.height = this.game.rows * this.game.enemySize;
+            this.enemies.forEach(enemy => {
+                enemy.spriteWidth = this.game.enemySize;
+                enemy.spriteHeight = this.game.enemySize;
+            });
+        }
+        this.x = this.game.width * 0.5 - this.width * 0.5;
     }
 }
