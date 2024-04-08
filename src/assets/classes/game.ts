@@ -237,12 +237,13 @@ export default class Game {
     }
     drawStatusText(context: CanvasRenderingContext2D) {
         context.save();
-        context.fillStyle = 'black';
-        context.fillText('Timer: ' + this.formatTimer(), 20, 20); 
-        context.fillStyle = 'red';
-        context.fillText('Score: ' + this.score, 88, 20);
-        context.fillStyle = 'black';
-        context.fillText('Wave: ' + this.waveCount, 160, 20);
+        context.font = 'bold 12px Roboto';
+        context.fillStyle = '#1a1a1a';
+        context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
+        context.fillStyle = '#1a1a1a';
+        context.fillText('Wave: ' + this.waveCount, 81, 20);
+        context.fillStyle = '#1a1a1a';
+        context.fillText('Score: ' + this.score, 150, 20);
         function drawEgg(x: number, y: number, radiusX: number, radiusY: number) {
             context.beginPath();
             context.moveTo(x, y - radiusY);
@@ -277,26 +278,30 @@ export default class Game {
             context.stroke();
           }
         for (let i = 0; i < this.player.maxLives; i++) {
-            if ( this.player.lives < 2) {
+            if ( this.player.lives <= 2) {
                 context.strokeStyle = '#f1b963';
+            } else if ( this.player.lives > this.player.maxLives - 2) {
+                context.fillStyle = '#118a7e';
             } else {
-                context.strokeStyle = '#3baea0';
+                context.strokeStyle = '#efe296';
             }
             context.shadowOffsetX = 0.6;
             context.shadowOffsetY = 0.6;
             context.shadowColor = 'black';
-            drawEggStroke(this.width - 30 - 17 * i, 12, 9, 10);
+            drawEggStroke(this.width - 15 - 16 * i, 16, 8, 9);
         }
         for (let i = 0; i < this.player.lives; i++) {
-            if ( this.player.lives < 2) {
+            if ( this.player.lives <= 2) {
                 context.fillStyle = '#ff7e67';
+            } else if ( this.player.lives > this.player.maxLives - 2) {
+                context.fillStyle = '#118a7e';
             } else {
-              context.fillStyle = '#118a7e';
+                context.fillStyle = '#efe296';
             }
             context.shadowOffsetX = 0;
             context.shadowOffsetY = 0;
             context.shadowColor ='none';
-            drawEgg(this.width - 30 - 17 * i, 12, 9, 10);
+            drawEgg(this.width - 15 - 16 * i, 16, 8, 9);
         }
         if (this.gameOver) {
             context.textAlign = 'center';
