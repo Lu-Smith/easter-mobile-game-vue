@@ -1,5 +1,5 @@
 <template>
-    <div class="instructionsContainer">
+    <div :class="showInfo ? 'instructionsContainer' : 'instructionsContainerShow'">
         <button @click="showInstructions" v-if="!showInfo" class="infoButton">Instructions</button>
         <button @click="showInstructions" v-if="showInfo" class="infoButton">X </button>
         <div v-if="showInfo">
@@ -40,13 +40,25 @@ const showInstructions = () => {
 </script>
 
 <style scoped>
+    .instructionsContainerShow {
+        border: 2px solid #70d8e8;
+        padding: 15px 45px 50px 45px;
+        border-radius: 50%;
+        background-color: #efe296;
+        background-image: radial-gradient(#70d8e8 25%, transparent 25%), radial-gradient(pink 18%, transparent 18%), radial-gradient(rgb(85, 156, 86) 78%, transparent 78%);
+        background-size: 20px 23px; 
+        background-position: 0 0, 25px 25px; 
+        color: #1a1a1a;
+    }
+
     .instructionsContainer {
         border: 2px solid #feffdf;
         padding: 15px 45px 50px 45px;
         border-radius: 50%;
-        background-color: #efe296;
-        color: #1a1a1a;;
+        background-color: #f1e6ab;
+        color: #1a1a1a;
     }
+
     .infoButton {
         color: #1a1a1a;;
         margin-bottom: 20px;
