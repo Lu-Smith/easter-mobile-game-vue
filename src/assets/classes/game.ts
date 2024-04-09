@@ -34,6 +34,7 @@ export default class Game {
     gameOver: boolean;
     score: number;
     debug: boolean;
+    level: number;
     //timer
     timer: number;
     eventTimer: number;
@@ -77,6 +78,7 @@ export default class Game {
         this.gameOver = false;
         this.score = 0;
         this.debug = false;
+        this.level = 1;
         //timer
         this.timer = 0;
         this.eventTimer = 0;
@@ -162,6 +164,7 @@ export default class Game {
         this.columns = 4;
         this.rows = 2;
         this.waveCount = 1;
+        this.level = 1;
         this.waves = [];
         this.newWave();
     }
@@ -186,6 +189,9 @@ export default class Game {
             if (wave.enemies.length < 1 && !wave.nextWaveTrigger && !this.gameOver) {
                 this.newWave();
                 this.waveCount++;
+                if (this.waveCount % 10 === 0) {
+                    this.level++;
+                }
                 wave.nextWaveTrigger = true;
                 if (this.player.lives < this.player.maxLives) this.player.lives++;
             } 
@@ -213,7 +219,10 @@ export default class Game {
         }
     }
     formatTimer() {
-        return (this.timer * 0.001).toFixed(0);
+        let seconds = Math.floor(this.timer / 1000);
+        let minutes = Math.floor(seconds / 60);
+        seconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
     handlePeriodicEvents(deltaTime: number) {
         if (this.eventTimer < this.eventInterval) {
@@ -244,11 +253,11 @@ export default class Game {
         context.save();
         context.font = 'bold 12px Roboto';
         context.fillStyle = '#1a1a1a';
-        context.fillText('Timer: ' + this.formatTimer(), 10, 20); 
+        context.fillText('Timer: ' + this.formatTimer(), 38, 20); 
         context.fillStyle = '#1a1a1a';
-        context.fillText('Wave: ' + this.waveCount, 81, 20);
+        context.fillText('Wave: ' + this.waveCount, 105, 20);
         context.fillStyle = '#1a1a1a';
-        context.fillText('Score: ' + this.score, 150, 20);
+        context.fillText('Score: ' + this.score, 160, 20);
         function drawEgg(x: number, y: number, radiusX: number, radiusY: number) {
             context.beginPath();
             context.moveTo(x, y - radiusY);
@@ -314,7 +323,7 @@ export default class Game {
             context.fillStyle = 'white';
             context.fillText('Game Over!', this.width * 0.5, this.height * 0.4);
             context.font = '15px Impact';
-            context.fillText('Your score: ' + this.score + '!', this.width * 0.5, this.height * 0.52);
+            context.fillText('Your score: ' + this.score + ' - Level: ' + this.level, this.width * 0.5, this.height * 0.52);
         }
         context.restore();
        
