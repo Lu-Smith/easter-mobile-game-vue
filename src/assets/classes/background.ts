@@ -49,7 +49,7 @@ export default class Background {
         //main background
    
         if (this.game.level % 2 === 0) {
-            context.fillStyle = '#2f1b41';
+            context.fillStyle = 'rgb(14, 1, 14)';
         } else {
             context.fillStyle = 'black';
         }
