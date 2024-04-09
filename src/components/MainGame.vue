@@ -20,7 +20,7 @@
                 </span>
             </button>
         </div>
-        <canvas ref="gameCanvas"></canvas>
+        <canvas ref="gameCanvas" :class="changeBackground ? 'canvas2' : 'canvas1'"></canvas>
         <AssetsComponent /> 
     </div>
 </template>
@@ -42,6 +42,7 @@ const animationFrameId: { value?: number } = {};
 const playing = ref(true);
 let game: Game | null = null;   
 const gameCanvas = ref<HTMLCanvasElement | null>(null);
+const changeBackground = ref(false);
 
 const animate = (playingValue: boolean) => {
     let lastTimeStamp = performance.now();
@@ -60,7 +61,12 @@ const animate = (playingValue: boolean) => {
             if (game.gameOver) {
                 playing.value = false;
             }
-        }    
+        }  
+        if (game && game.level % 2 === 0) {
+            changeBackground.value = true;
+        } else {
+            changeBackground.value = false;
+        }
     }   
     if (playingValue) {
         animationFrameId.value = requestAnimationFrame(loop);
