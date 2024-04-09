@@ -67,7 +67,7 @@ export default class Enemy {
             this.resize();
             this.game.projectilesPool.forEach(projectile => {
                 if (!projectile.free && this.game.checkCollision(this, projectile) && this.lives > 0) {
-                    Math.random() < 0.5 ? this.hit(1) : this.hit(2);
+                    Math.random() < this.game.level * 0.1 ? this.hit(1) : this.hit(2);
                     projectile.reset();
                 }
             });
