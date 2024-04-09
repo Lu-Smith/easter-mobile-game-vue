@@ -255,9 +255,9 @@ export default class Game {
         context.fillStyle = '#1a1a1a';
         context.fillText('Timer: ' + this.formatTimer(), 38, 20); 
         context.fillStyle = '#1a1a1a';
-        context.fillText('Wave: ' + this.waveCount, 105, 20);
+        context.fillText('Wave: ' + this.waveCount, 110, 20);
         context.fillStyle = '#1a1a1a';
-        context.fillText('Score: ' + this.score, 160, 20);
+        context.fillText('Score: ' + this.score, 172, 20);
         function drawEgg(x: number, y: number, radiusX: number, radiusY: number) {
             context.beginPath();
             context.moveTo(x, y - radiusY);
