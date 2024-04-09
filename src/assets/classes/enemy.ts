@@ -111,6 +111,11 @@ export default class Enemy {
     hit(damage: number) {
         if (this instanceof Eggs) {
             this.lives -= damage;
+            if (this.lives === 1) {
+                this.game.sound.play(this.game.sound.crack);
+            } else {
+                this.game.sound.play(this.game.sound.die);
+            }
         }
     }
 }
