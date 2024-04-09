@@ -13,6 +13,7 @@ export default class Background {
     y: number;
     y1: number;
     y2: number;
+    y3: number;
     gradient: CanvasGradient | null;
 
     constructor(game: Game) {
@@ -27,6 +28,7 @@ export default class Background {
         this.y = 0;
         this.y1 = 0;
         this.y2 = 0;
+        this.y3 = 0;
         this.nextBackgroundAlpha = 0;
         this.gradient = null;
     }   
@@ -37,6 +39,8 @@ export default class Background {
         if (this.y1 <= 10) this.y1 = this.scaledHeight;
         this.y2 -= this.game.speed * 0.4;
         if (this.y2 <= 10) this.y2 = this.scaledHeight;
+        this.y3 -= this.game.speed * 0.2;
+        if (this.y3 <= 10) this.y3 = this.scaledHeight;
     }
     draw(context: CanvasRenderingContext2D){
         context.save();
@@ -44,7 +48,12 @@ export default class Background {
 
         //main background
    
-        context.fillStyle = 'black';
+        if (this.game.level % 2 === 0) {
+            context.fillStyle = '#2f1b41';
+        } else {
+            context.fillStyle = 'black';
+        }
+       
         context.fillRect(this.x, 35, this.scaledWidth, this.scaledHeight);
 
         this.gradient = context.createRadialGradient(this.width/4, this.height/2, 250, this.width/4, this.height/2, 500);
@@ -134,6 +143,14 @@ export default class Background {
         context.lineTo(this.x * 18 + (16/2.5), this.y1 * 2.4 + (40/2.5));
         context.closePath();
         context.fill();
+
+        // Draw level
+        context.textAlign = 'center';
+        context.font = '30px Impact';
+        context.fillStyle = 'white';
+        if (this.game.waveCount % 10 === 0) {
+            context.fillText('Level ' + this.game.level, this.game.width * 0.5, this.y3);
+        }
         context.restore();
     }
     resize() {
