@@ -41,7 +41,7 @@ const showInstructions = () => {
 
 <style scoped>
     .instructionsContainerShow {
-        border: 2px solid #70d8e8;
+        border: 2px solid #feffdf;
         padding: 15px 45px 50px 45px;
         border-radius: 50%;
         background-color: #efe296;
@@ -55,7 +55,7 @@ const showInstructions = () => {
         border: 2px solid #feffdf;
         padding: 15px 45px 50px 45px;
         border-radius: 50%;
-        background-color: #f1e6ab;
+        background-color: #f2ebc4;
         color: #1a1a1a;
     }
 
