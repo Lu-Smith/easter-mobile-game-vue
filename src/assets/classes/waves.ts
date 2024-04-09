@@ -12,6 +12,9 @@ export default class Wave {
     enemies: Enemy[];
     game: Game;
     nextWaveTrigger: boolean;
+    levelSpeedSmall: number;
+    levelSpeedBig: number;
+
 
     constructor(game: Game) {
         this.game = game;
@@ -19,10 +22,12 @@ export default class Wave {
         this.height = this.game.rows * this.game.enemySize;
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = -this.height;
+        this.levelSpeedSmall = this.game.speed + this.game.level * 0.2 - 0.5;
+        this.levelSpeedBig = this.game.speed + this.game.level * 0.2 + 1;
         if (this.game.width > 700) {
-            this.speedX = Math.random() < 0.5 ? -3.5 : 3.5;
+            this.speedX = Math.random() < 0.5 ? -this.levelSpeedBig : this.levelSpeedBig;
         } else { 
-            this.speedX = Math.random() < 0.5 ? -1.5 : 1.5;
+            this.speedX = Math.random() < 0.5 ? -this.levelSpeedSmall : this.levelSpeedSmall;
         }
         this.speedY = 0;
         this.enemies = [];
