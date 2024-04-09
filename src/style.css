@@ -104,8 +104,12 @@ a:hover {
   display: none;
 }
 
-canvas {
+.canvas1 {
   background-color: #f0a958;
+}
+
+.canvas2 {
+  background-color: #1e85f4;
 }
 
 @media screen and (max-width: 786px) {
