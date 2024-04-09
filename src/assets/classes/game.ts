@@ -130,11 +130,14 @@ export default class Game {
                 if (e.changedTouches[0].pageX - this.touchStartX > (this.swipeDistance * 2)) {
                     this.right = 1;
                     this.left = 0;
+                    this.fired = false;
                 } else if (e.changedTouches[0].pageX - this.touchStartX < -(this.swipeDistance * 2)) {
                     this.left = 1;
                     this.right = 0;
+                    this.fired = false;
                 } else if (e.changedTouches[0].pageX - this.touchStartX <= (this.swipeDistance * 2) && e.changedTouches[0].pageX - this.touchStartX  >= -(this.swipeDistance * 2)) {
                     this.player.shoot();
+                    this.fired = true;
                     this.right = 0;
                     this.left = 0;
                 }
