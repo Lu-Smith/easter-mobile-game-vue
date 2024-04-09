@@ -33,7 +33,7 @@ export default class Wave {
         if(this.y < this.height/this.game.rows + this.height/this.game.rows ) this.y += 5;
         this.speedY = 0;
         if (this.game.width < 800) {
-            if (this.x < this.game.background.x + 20 || this.x > this.game.background.x * 22.5 - this.game.enemySize * 0.75 * (this.game.columns - 1))  {
+            if (this.x < this.game.background.x + 20 || this.x > this.game.width + 140 - this.game.enemySize * this.game.columns)  {
                 this.speedX *= -1;
                 this.speedY = this.game.enemySize * 0.75;
             }

@@ -320,7 +320,9 @@ export default class Game {
        
     }
     newWave() {
-        if(Math.random() < 0.6 && this.columns * this.enemySize < this.width * 0.9) {
+        if(Math.random() < 0.6 && this.columns * this.enemySize < this.width * 0.9 && this.width >= 800) {
+            this.columns++;
+        } else if (Math.random() < 0.6 && this.columns * this.enemySize < this.width * 0.6 && this.width < 800) {
             this.columns++;
         } else if (this.rows * this.enemySize < this.height * 0.5) {
             this.rows++;
